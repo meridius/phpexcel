@@ -1,0 +1,27 @@
+{
+	"name": "meridius/phpexcel",
+	"type": "library",
+	"description": "Wrapper for PHPOffice/PHPExcel",
+	"keywords": ["excel", "office", "microsoft", "nette", "phpoffice", "phpexcel"],
+	"homepage": "https://github.com/meridius/phpexcel",
+	"license": "Apache-2.0",
+	"authors": [
+		{
+			"name": "Martin Lukeš",
+			"homepage": "https://github.com/meridius/phpexcel"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/meridius/phpexcel/issues"
+	},
+	"require": {
+		"phpoffice/phpexcel": "~1.8",
+		"meridius/helpers": "~1.0.4",
+		"nette/utils": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Meridius\\PhpExcel\\": "src/"
+		}
+	}
+}
