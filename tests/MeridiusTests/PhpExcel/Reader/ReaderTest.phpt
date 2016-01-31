@@ -1,47 +1,56 @@
 <?php
 
 /**
- * Test: Meridius\PhpExcel\Reader
- *
- * @testCase Meridius\PhpExcel\ReaderTest
- * @package Meridius\PhpExcel
+ * @testCase
  */
 
 namespace MeridiusTests\PhpExcel;
 
+use Meridius\TesterExtras\AbstractIntegrationTestCase;
+use Meridius\TesterExtras\Bootstrap;
+use MeridiusTests\PhpExcel\ExcelEntity\TestFileExcelEntity;
+use MeridiusTests\PhpExcel\Reader\TestFileReader;
 use Tester;
-use Tester\Assert;
-use Meridius\PhpExcel\Reader;
 
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-// TODO
-class ReaderTest extends Tester\TestCase {
+Bootstrap::setup(__DIR__ . '/../../..');
+Bootstrap::createRobotLoader([
+		__DIR__ . '/../files',
+		__DIR__ . '/../../../../src',
+	]);
 
-	/**
-	 *
-	 * @return mixed[] test data, expected result
-	 */
-	public function getSafeTrimData() {
-		$date = new \DateTime;
-		return [
-			['as df', 'as df'],
-			['as df ', 'as df'],
-			['16851 ', '16851'],
-			[16851, 16851],
-			[$date, $date],
-		];
+class ReaderTest extends AbstractIntegrationTestCase {
+
+	/** @var TestFileReader */
+	private $reader;
+
+	public function setUp() {
+		$storage = new TempUploadStorage(__DIR__ . '/../files');
+		$this->reader = new TestFileReader($storage);
 	}
 
-	/**
-	 *
-	 * @dataProvider getSafeTrimData
-	 */
-	public function testSafeTrim($in, $expected) {
-		Assert::same($expected, StringHelper::safeTrim($in));
+	public function testReaderXls() {
+		$rows = $this->reader->readFile('testFile.xls');
+		foreach ($rows as $row) {
+			Tester\Assert::type(TestFileExcelEntity::class, $row);
+		}
+	}
+
+	public function testReaderOds() {
+		$rows = $this->reader->readFile('testFile.ods');
+		foreach ($rows as $row) {
+			Tester\Assert::type(TestFileExcelEntity::class, $row);
+		}
+	}
+
+	public function testReaderXlsx() {
+		$rows = $this->reader->readFile('testFile.xlsx');
+		foreach ($rows as $row) {
+			Tester\Assert::type(TestFileExcelEntity::class, $row);
+		}
 	}
 
 }
 
-$testCase = new ReaderTest;
-$testCase->run();
+(new ReaderTest())->run();

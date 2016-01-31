@@ -1,8 +1,10 @@
 <?php
 
-namespace ExcelEntities;
+namespace MeridiusTests\PhpExcel\ExcelEntity;
 
-class ReaderTestExcelEntity extends \Meridius\PhpExcel\AbstractExcelEntity {
+use Meridius\PhpExcel\AbstractExcelEntity;
+
+class TestFileExcelEntity extends AbstractExcelEntity {
 
 	const COL_1 = 'Col 1';
 	const COL_2 = 'Col 2';

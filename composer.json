@@ -19,6 +19,9 @@
 		"meridius/helpers": "~1.0.4",
 		"nette/utils": "*"
 	},
+	"require-dev": {
+		"meridius/tester-extras": "~1"
+	},
 	"autoload": {
 		"psr-4": {
 			"Meridius\\PhpExcel\\": "src/"

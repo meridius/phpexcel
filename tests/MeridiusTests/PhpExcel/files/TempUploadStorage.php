@@ -1,15 +1,12 @@
 <?php
 
-namespace services\storages;
+namespace MeridiusTests\PhpExcel;
 
 use Meridius\PhpExcel\ITempUploadStorage;
 
 class TempUploadStorage extends \Nette\Object implements ITempUploadStorage {
 
-	/**
-	 *
-	 * @var String
-	 */
+	/** @var string */
 	private $realPath;
 
 	/**
