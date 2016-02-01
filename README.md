@@ -1,6 +1,7 @@
 # PhpExcel
 *Wrapper for [PHPOffice/PHPExcel](https://github.com/PHPOffice/PHPExcel)*
 
+[![Build Status](https://travis-ci.org/meridius/phpexcel.svg?branch=master)](https://travis-ci.org/meridius/phpexcel)
 
 ## How to
 
