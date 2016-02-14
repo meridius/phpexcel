@@ -2,11 +2,13 @@
 
 namespace Meridius\PhpExcel;
 
-use \PHPExcel as PhpOffice_PHPExcel;
-use \PHPExcel_IOFactory as PhpOffice_PHPExcel_IOFactory;
-use \PHPExcel_Writer_IWriter as PhpOffice_PHPExcel_Writer_IWriter;
 use Meridius\Helpers\ExcelHelper;
 use Meridius\PhpExcel\PhpExcelException;
+use PHPExcel as PhpOffice_PHPExcel;
+use PHPExcel_IOFactory as PhpOffice_PHPExcel_IOFactory;
+use PHPExcel_Reader_Exception as PhpOffice_PHPExcel_Reader_Exception;
+use PHPExcel_Writer_Exception as PhpOffice_PHPExcel_Writer_Exception;
+use PHPExcel_Writer_IWriter as PhpOffice_PHPExcel_Writer_IWriter;
 
 class Workbook extends \Nette\Object {
 
@@ -64,7 +66,7 @@ class Workbook extends \Nette\Object {
 
 	/**
 	 * @param string $dateFormat constants from DateFormatConstants OR custom string
-	 * @return \Meridius\PhpExcel\Workbook
+	 * @return Workbook
 	 */
 	public function setDefaultDateFormat($dateFormat) {
 		$this->dateFormat = $dateFormat;
@@ -74,31 +76,35 @@ class Workbook extends \Nette\Object {
 	/**
 	 * Save Excel to given path
 	 * @param string $path Full path
-	 * @param string $type xls|xlsx
+	 * @param string $type xls, xlsx or anything from PHPExcel_IOFactory::$_autoResolveClasses
+	 * @throws PhpExcelException
 	 */
 	public function save($path, $type = 'xlsx') {
 		$writer = $this->getWriter($type);
-		$writer->save($path);
+		try {
+			$writer->save($path);
+		} catch (PhpOffice_PHPExcel_Writer_Exception $e) {
+			throw new PhpExcelException($e->getMessage(), 0, $e);
+		}
 	}
 
 	/**
 	 * Get PhpOffice PhpExcel Writer
-	 * @param string $type xls|xlsx
+	 * @param string $type
 	 * @return PhpOffice_PHPExcel_Writer_IWriter
 	 * @throws PhpExcelException
 	 */
-	private function getWriter($type = 'xlsx') {
-		switch ($type) {
-			case 'xls':
-				$writerType = self::PHPEXCEL_2003;
-				break;
-			case 'xlsx':
-				$writerType = self::PHPEXCEL_2007;
-				break;
-			default:
-				throw new PhpExcelException("Invalid excel type '$type'.");
+	private function getWriter($type) {
+		$simpleTypes = [
+			'xls' => self::PHPEXCEL_2003,
+			'xlsx' => self::PHPEXCEL_2007,
+		];
+		$writerType = array_key_exists($type, $simpleTypes) ? $simpleTypes[$type] : $type;
+		try {
+			return PhpOffice_PHPExcel_IOFactory::createWriter($this->excel, $writerType);
+		} catch (PhpOffice_PHPExcel_Reader_Exception $e) {
+			throw new PhpExcelException("Invalid writer type '$type'.", 0, $e);
 		}
-		return PhpOffice_PHPExcel_IOFactory::createWriter($this->excel, $writerType);
 	}
 
 }

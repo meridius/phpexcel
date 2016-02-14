@@ -3,13 +3,14 @@
 namespace MeridiusTests\PhpExcel;
 
 use DateTime;
+use Meridius\PhpExcel\Workbook;
 use Meridius\TesterExtras\AbstractIntegrationTestCase;
 use Meridius\TesterExtras\Bootstrap;
 use MeridiusTests\PhpExcel\ExcelEntity\TestFileExcelEntity;
-use MeridiusTests\PhpExcel\Reader\TestFileWriter;
-use MeridiusTests\PhpExcel\TempExcelStorage;
+use MeridiusTests\PhpExcel\Reader\TestFileAddReader;
+use MeridiusTests\PhpExcel\Reader\TestFileAddWriter;
 use Tester\Assert;
-use const TEMP_DIR;
+use Tester\FileMock;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
@@ -19,20 +20,28 @@ Bootstrap::createRobotLoader([
 		__DIR__ . '/../../../../src',
 	]);
 
-class WriterTest extends AbstractIntegrationTestCase {
+class WriterAddTest extends AbstractIntegrationTestCase {
 
-	/** @var TestFileWriter */
+	/** @var TestFileAddWriter */
 	private $writer;
 
 	public function setUp() {
-		$storage = new TempExcelStorage(TEMP_DIR);
-		$this->writer = new TestFileWriter($storage);
+		$this->writer = new TestFileAddWriter();
 	}
 
-	public function testWriteFile() {
+	public function testAddToFile() {
+		$file = FileMock::create(file_get_contents(__DIR__ . '/../files/testFile.xls'));
 		$data = $this->prepareTestWriteFileData();
-		$file = $this->writer->writeFile($data);
-		Assert::type('string', $file);
+		$workbook = $this->writer->writeToFile($file, $data);
+		Assert::type(Workbook::class, $workbook);
+		$workbook->save($file, 'xls');
+
+		$storage = new TempUploadStorage(__DIR__ . '/../files');
+		$reader = new TestFileAddReader($storage);
+		$dataRed = $reader->readFile($file);
+		foreach ($dataRed as $key => $rowRed) {
+			Assert::equal($data[$key - 2], $rowRed); // the 2 is row where data from red excel starts
+		}
 	}
 
 	private function prepareTestWriteFileData() {
@@ -68,4 +77,4 @@ class WriterTest extends AbstractIntegrationTestCase {
 
 }
 
-(new WriterTest())->run();
+(new WriterAddTest())->run();

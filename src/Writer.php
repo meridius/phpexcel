@@ -12,4 +12,8 @@ class Writer extends \Nette\Object {
 		return new Workbook;
 	}
 
+	public static function load($filePath) {
+		return new Workbook;
+	}
+
 }
