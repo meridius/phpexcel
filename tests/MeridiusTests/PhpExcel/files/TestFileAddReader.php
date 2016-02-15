@@ -19,7 +19,7 @@ class TestFileAddReader extends AbstractPhpExcelReader {
 	 * @param string $fileName
 	 * @return TestFileExcelEntity[]
 	 */
-	public function readFile($fileName) {
+	public function readAddedList($fileName) {
 		$reader = new Reader($fileName);
 		$reader
 			->setSheetNameToRead('Added list')
@@ -30,7 +30,27 @@ class TestFileAddReader extends AbstractPhpExcelReader {
 				TestFileExcelEntity::COLUMN_3 => ExcelFieldType::STRING,
 				TestFileExcelEntity::COLUMN_4 => ExcelFieldType::INT | ExcelFieldType::REQUIRED,
 			])
-// ->deleteFileOnFinish()
+			->open();
+
+		return $this->toEntities($reader);
+	}
+
+	/**
+	 *
+	 * @param string $fileName
+	 * @return TestFileExcelEntity[]
+	 */
+	public function readOldList($fileName) {
+		$reader = new Reader($fileName);
+		$reader
+			->setSheetNameToRead('List1')
+			->setExcelColumnsRange('A', 'D')
+			->setFieldsToRead([
+				TestFileExcelEntity::COL_1 => ExcelFieldType::FLOAT,
+				TestFileExcelEntity::COL_2 => ExcelFieldType::DATE,
+				TestFileExcelEntity::COLUMN_3 => ExcelFieldType::STRING,
+				TestFileExcelEntity::COLUMN_4 => ExcelFieldType::INT | ExcelFieldType::REQUIRED,
+			])
 			->open();
 
 		return $this->toEntities($reader);

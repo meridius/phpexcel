@@ -15,6 +15,7 @@
 		"issues": "https://github.com/meridius/phpexcel/issues"
 	},
 	"require": {
+		"php": ">=5.6",
 		"phpoffice/phpexcel": "~1.8",
 		"meridius/helpers": "~1.0.4",
 		"nette/utils": "*"

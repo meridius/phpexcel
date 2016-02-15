@@ -38,8 +38,16 @@ class WriterAddTest extends AbstractIntegrationTestCase {
 
 		$storage = new TempUploadStorage(__DIR__ . '/../files');
 		$reader = new TestFileAddReader($storage);
-		$dataRed = $reader->readFile($file);
-		foreach ($dataRed as $key => $rowRed) {
+
+		// new (added) tab
+		$newDataRed = $reader->readAddedList($file);
+		foreach ($newDataRed as $key => $rowRed) {
+			Assert::equal($data[$key - 2], $rowRed); // the 2 is row where data from red excel starts
+		}
+
+		// old (existing) tab
+		$oldDataRed = $reader->readOldList($file);
+		foreach ($oldDataRed as $key => $rowRed) {
 			Assert::equal($data[$key - 2], $rowRed); // the 2 is row where data from red excel starts
 		}
 	}
@@ -48,17 +56,17 @@ class WriterAddTest extends AbstractIntegrationTestCase {
 		$rows = [
 			[
 				45.5,
-				DateTime::createFromFormat('d.m.Y', '04.09.1945'),
+				DateTime::createFromFormat("d.m.Y H:i:s", "04.09.1945 00:00:00"),
 				'jrt rt g',
 				5,
 			], [
 				4186.748,
-				DateTime::createFromFormat('d.m.Y', '20.12.2015'),
+				DateTime::createFromFormat('Y-m-d H:i:s', '2015-12-20 00:00:00'),
 				'hrtjhnrt tzdrth d',
 				8,
 			], [
 				845.48,
-				DateTime::createFromFormat('d.m.Y', '08.09.2005'),
+				DateTime::createFromFormat('d\.m\.Y H:i:s', '08.09.2005 00:00:00'),
 				'ku',
 				4,
 			]

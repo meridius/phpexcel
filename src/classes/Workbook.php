@@ -23,11 +23,18 @@ class Workbook extends \Nette\Object {
 
 	/**
 	 * Excel with one sheet
+	 * @param string|null $filePath
 	 * @param boolean $withoutSheets
 	 */
-	public function __construct($withoutSheets = true) {
-		$this->excel = new PhpOffice_PHPExcel;
-		if ($withoutSheets) {
+	public function __construct($filePath = null, $withoutSheets = true) {
+		try {
+			$this->excel = $filePath
+				? PhpOffice_PHPExcel_IOFactory::load($filePath)
+				: new PhpOffice_PHPExcel;
+		} catch (PhpOffice_PHPExcel_Reader_Exception $ex) {
+			throw new PhpExcelException("Unable to create excel object.", 0, $e);
+		}
+		if (!$filePath && $withoutSheets) {
 			$this->excel->removeSheetByIndex();
 		}
 	}

@@ -23,10 +23,11 @@ abstract class AbstractPhpExcelReader extends \Nette\Object {
 	/**
 	 * This method should create new instance of \Meridius\PhpExcel\Reader,<br/>
 	 * set sheet name, columns, etc. and pass the reader to toEntities() method.
+	 * It is now commented-out because you don't have to implement it in case separate methods for each sheet.
 	 * @param string $file file path
 	 * @return AbstractExcelEntity[]
 	 */
-	abstract public function readFile($file);
+// public function readFile($file);
 
 	/**
 	 *
