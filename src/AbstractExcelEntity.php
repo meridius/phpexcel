@@ -10,7 +10,7 @@ abstract class AbstractExcelEntity extends \Nette\Object {
 	 *
 	 * @param array $row
 	 */
-	public function __construct(array $row = null) {
+	public function __construct($row = null) {
 		if (!is_null($row)) {
 			$this->loadFromExcelRow($row);
 		}
@@ -26,7 +26,7 @@ abstract class AbstractExcelEntity extends \Nette\Object {
 	 * @param array $row
 	 * @return AbstractExcelEntity
 	 */
-	public function loadFromExcelRow(array $row) {
+	public function loadFromExcelRow($row) {
 		$mappingArray = $this->getMappingArray();
 		foreach ($mappingArray as $column => &$varRef) {
 			if (array_key_exists($column, $row)) {
