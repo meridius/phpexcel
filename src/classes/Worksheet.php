@@ -2,7 +2,6 @@
 
 namespace Meridius\PhpExcel;
 
-use \PHPExcel as PhpOffice_PHPExcel;
 use \PHPExcel_Worksheet as PhpOffice_PHPExcel_Worksheet;
 use \PHPExcel_Exception as PhpOffice_PHPExcel_Exception;
 use Meridius\PhpExcel\Formatter;
@@ -15,9 +14,26 @@ class Worksheet extends \Nette\Object {
 	/** @var Formatter */
 	private $formatter;
 
-	public function __construct(PhpOffice_PHPExcel $excel) {
-		$this->sheet = $excel->createSheet();
+	public function __construct(PhpOffice_PHPExcel_Worksheet $sheet) {
+		$this->sheet = $sheet;
 		$this->formatter = new Formatter($this->sheet);
+	}
+	
+	/**
+	 * 
+	 * @return PhpOffice_PHPExcel_Worksheet
+	 */
+	public function getPhpOfficeWorksheetObject() {
+		return $this->sheet;
+	}
+	
+	/**
+	 * Will return dimension of data in worksheet
+	 * @return Dimension
+	 */
+	public function getDataDimension() {
+		$dimensionsString = $this->sheet->calculateWorksheetDataDimension();
+		return new Dimension($dimensionsString);
 	}
 
 	/**
@@ -29,10 +45,11 @@ class Worksheet extends \Nette\Object {
 	 * This should be left as the default true, unless you are
 	 * certain that no formula cells on any worksheet contain
 	 * references to this worksheet
-	 * @return PhpOffice_PHPExcel_Worksheet
+	 * @return Worksheet
 	 */
 	public function setTitle($pValue = 'Worksheet', $updateFormulaCellReferences = true) {
 		$this->sheet->setTitle($pValue, $updateFormulaCellReferences);
+		return $this;
 	}
 
 	/**
@@ -43,7 +60,7 @@ class Worksheet extends \Nette\Object {
 	 * @param string $startCell Insert array starting from this cell address as the top left coordinate
 	 * @param boolean $strictNullComparison Apply strict comparison when testing for null values in the array
 	 * @throws PhpOffice_PHPExcel_Exception
-	 * @return PhpOffice_PHPExcel_Worksheet
+	 * @return Worksheet
 	 */
 	public function fromArray($source = null, $nullValue = null, $startCell = 'A1', $strictNullComparison = false) {
 		foreach ($source as &$row) {
@@ -56,6 +73,7 @@ class Worksheet extends \Nette\Object {
 			}
 		}
 		$this->sheet->fromArray($source, $nullValue, $startCell, $strictNullComparison);
+		return $this;
 	}
 
 	/**
@@ -69,9 +87,11 @@ class Worksheet extends \Nette\Object {
 	/**
 	 * Apply standard formating for sheet
 	 * @param string $dataRange In format A2:E30
+	 * @return Worksheet
 	 */
 	public function applyStandardSheetFormat($dataRange) {
 		$this->formatter->applyStandardSheetFormat($dataRange);
+		return $this;
 	}
 
 }
