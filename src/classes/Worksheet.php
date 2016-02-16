@@ -18,15 +18,15 @@ class Worksheet extends \Nette\Object {
 		$this->sheet = $sheet;
 		$this->formatter = new Formatter($this->sheet);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return PhpOffice_PHPExcel_Worksheet
 	 */
 	public function getPhpOfficeWorksheetObject() {
 		return $this->sheet;
 	}
-	
+
 	/**
 	 * Will return dimension of data in worksheet
 	 * @return Dimension

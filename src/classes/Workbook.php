@@ -38,17 +38,17 @@ class Workbook extends \Nette\Object {
 			$this->excel->removeSheetByIndex();
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return PhpOffice_PHPExcel
 	 */
 	public function getPhpOfficeExcelObject() {
 		return $this->excel;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param string $sheetName
 	 * @return Worksheet
 	 */
@@ -56,9 +56,9 @@ class Workbook extends \Nette\Object {
 		$sheet = $this->excel->getSheetByName($sheetName);
 		return new Worksheet($sheet);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param int $sheetIndex
 	 * @return Worksheet
 	 */
@@ -66,9 +66,9 @@ class Workbook extends \Nette\Object {
 		$sheet = $this->excel->getSheet($sheetIndex);
 		return new Worksheet($sheet);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return Worksheet
 	 */
 	public function addSheet() {

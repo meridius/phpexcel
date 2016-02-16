@@ -20,40 +20,34 @@ Bootstrap::createRobotLoader([
 	]);
 
 class DimensionTest extends TestCase {
-	
-	public function testMisc() {
-		$a = 'A';
-		Assert::same('B', ++$a);
-		$af = 'AF';
-		Assert::same('AG', ++$af);
-		$z = 'Z';
-		Assert::same('AA', ++$z);
-		$ag4 = 'AG4';
-		Assert::same('AG5', ++$ag4);
-	}
-		
+
 	/**
 	 * @dataProvider getPassingData
 	 */
-	public function testPassing($dimensionString, $firstCol, $firstRow, $lastCol, $lastRow, $topRightCoor, $bottomLeftCoor) {
+	public function testPassing($dimensionString,
+		$firstCol, $firstRow, $lastCol, $lastRow,
+		$topRightCoor, $bottomLeftCoor, $topLeftCoor, $bottomRightCoor
+	) {
 		$dimension = new Dimension($dimensionString);
 		Assert::type(Dimension::class, $dimension);
 		Assert::same($firstCol, $dimension->getFirstColName());
 		Assert::same($firstRow, $dimension->getFirstRowNum());
 		Assert::same($lastCol, $dimension->getLastColName());
 		Assert::same($lastRow, $dimension->getLastRowNum());
-		Assert::same($topRightCoor, $dimension->getTopRightCoordinate());
-		Assert::same($bottomLeftCoor, $dimension->getBottomLeftCoordinate());
+		Assert::same($topRightCoor, (string) $dimension->getTopRightCoordinate());
+		Assert::same($bottomLeftCoor, (string) $dimension->getBottomLeftCoordinate());
+		Assert::same($topLeftCoor, (string) $dimension->getTopLeftCoordinate());
+		Assert::same($bottomRightCoor, (string) $dimension->getBottomRightCoordinate());
 	}
-	
+
 	public function getPassingData() {
 		return [
-			['A1:F4', 'A', 1, 'F', 4, 'F1', 'A4'],
-			['a1:f4', 'A', 1, 'F', 4, 'F1', 'A4'],
-			['AFD76:F894', 'AFD', 76, 'F', 894, 'F76', 'AFD894'],
+			['A1:F4', 'A', 1, 'F', 4, 'F1', 'A4', 'A1', 'F4'],
+			['a1:f4', 'A', 1, 'F', 4, 'F1', 'A4', 'A1', 'F4'],
+			['AFD76:F894', 'AFD', 76, 'F', 894, 'F76', 'AFD894', 'AFD76', 'F894'],
 		];
 	}
-	
+
 	/**
 	 * @dataProvider getFailingData
 	 */
@@ -62,7 +56,7 @@ class DimensionTest extends TestCase {
 			$dimension = new Dimension($dimensionString);
 		}, PhpExcelException::class);
 	}
-	
+
 	public function getFailingData() {
 		return [
 			[''],
@@ -75,7 +69,7 @@ class DimensionTest extends TestCase {
 			['R7C5:R78C4'],
 		];
 	}
-	
+
 }
 
 (new DimensionTest())->run();
