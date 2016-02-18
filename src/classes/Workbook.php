@@ -19,6 +19,15 @@ class Workbook extends \Nette\Object {
 	private $excel;
 
 	/** @var string */
+	private $excelType;
+
+	/** @var string[] */
+	private $simpleTypes = [
+		'xls' => self::PHPEXCEL_2003,
+		'xlsx' => self::PHPEXCEL_2007,
+	];
+
+	/** @var string */
 	private $dateFormat;
 
 	/**
@@ -34,6 +43,9 @@ class Workbook extends \Nette\Object {
 		} catch (PhpOffice_PHPExcel_Reader_Exception $ex) {
 			throw new PhpExcelException("Unable to create excel object.", 0, $e);
 		}
+		if ($filePath) {
+			$this->excelType = PhpOffice_PHPExcel_IOFactory::identify($filePath);
+		}
 		if (!$filePath && $withoutSheets) {
 			$this->excel->removeSheetByIndex();
 		}
@@ -45,6 +57,22 @@ class Workbook extends \Nette\Object {
 	 */
 	public function getPhpOfficeExcelObject() {
 		return $this->excel;
+	}
+
+	/**
+	 *
+	 * @return string|null one of PhpOffice_PHPExcel_IOFactory::$_autoResolveClasses
+	 */
+	public function getExcelType() {
+		return $this->excelType;
+	}
+
+	/**
+	 *
+	 * @return string|null
+	 */
+	public function getFileExtension() {
+		return $this->getExtesionByExcelType($this->excelType);
 	}
 
 	/**
@@ -139,16 +167,32 @@ class Workbook extends \Nette\Object {
 	 * @throws PhpExcelException
 	 */
 	private function getWriter($type) {
-		$simpleTypes = [
-			'xls' => self::PHPEXCEL_2003,
-			'xlsx' => self::PHPEXCEL_2007,
-		];
-		$writerType = array_key_exists($type, $simpleTypes) ? $simpleTypes[$type] : $type;
+		$writerType = $this->getExcelTypeByExtension($type) ?: $type;
 		try {
 			return PhpOffice_PHPExcel_IOFactory::createWriter($this->excel, $writerType);
 		} catch (PhpOffice_PHPExcel_Reader_Exception $e) {
 			throw new PhpExcelException("Invalid writer type '$type'.", 0, $e);
 		}
+	}
+
+	/**
+	 *
+	 * @param string $excelType
+	 * @return string|null
+	 */
+	private function getExtesionByExcelType($excelType) {
+		return array_search($excelType, $this->simpleTypes) ?: null;
+	}
+
+	/**
+	 *
+	 * @param string $fileExtension
+	 * @return string|null
+	 */
+	private function getExcelTypeByExtension($fileExtension) {
+		return array_key_exists($fileExtension, $this->simpleTypes)
+			? $this->simpleTypes[$fileExtension]
+			: null;
 	}
 
 }

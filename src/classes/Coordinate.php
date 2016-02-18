@@ -20,7 +20,7 @@ class Coordinate extends Object {
 	 * @throws PhpExcelException
 	 */
 	public function __construct($coordinateString) {
-		$coordinateStringUpper = $this->checkCoordinateValidity($coordinateString);
+		$coordinateStringUpper = $this->checkCoordinate($coordinateString);
 		$coordinate = $this->separateCoordinate($coordinateStringUpper);
 		$this->col = $coordinate[0];
 		$this->row = $coordinate[1];
@@ -44,6 +44,27 @@ class Coordinate extends Object {
 	 */
 	public function getRowNum() {
 		return (int) $this->row;
+	}
+
+	/**
+	 *
+	 * @param string $colName
+	 * @return Coordinate
+	 */
+	public function setColName($colName) {
+		$this->col = $this->checkColName($colName);
+		return $this;
+	}
+
+	/**
+	 *
+	 * @param int $rowNum
+	 * @return Coordinate
+	 * @throws PhpExcelException
+	 */
+	public function setRowNum($rowNum) {
+		$this->row = $this->checkNumber($rowNum);
+		return $this;
 	}
 
 	/**
@@ -99,15 +120,56 @@ class Coordinate extends Object {
 	 * @return string
 	 * @throws PhpExcelException
 	 */
-	private function checkCoordinateValidity($coordinateString) {
-		if (!is_string($coordinateString)) {
-			throw new PhpExcelException('Only string can be used as coordinate.');
-		}
-		$coordinateStringUpper = strtoupper($coordinateString);
-		if (!preg_match('/^[A-Z]+\d+$/', $coordinateStringUpper)) {
+	private function checkCoordinate($coordinateString) {
+		$coordinateStringUpper = $this->checkString($coordinateString, 'coordinate');
+		if (!preg_match('/^[A-Z]+[1-9]+\d*$/', $coordinateStringUpper)) {
 			throw new PhpExcelException("Invalid coordinate format '$coordinateString'.");
 		}
 		return $coordinateStringUpper;
+	}
+
+	/**
+	 *
+	 * @param string $colName
+	 * @return string col name in uppercase
+	 * @throws PhpExcelException
+	 */
+	private function checkColName($colName) {
+		$colNameUpper = $this->checkString($colName, 'column name');
+		if (!preg_match('/^[A-Z]+$/', $colNameUpper)) {
+			throw new PhpExcelException('Invalid column name given.');
+		}
+		return $colNameUpper;
+	}
+
+	/**
+	 *
+	 * @param string $param
+	 * @param string $where
+	 * @return string
+	 * @throws PhpExcelException
+	 */
+	private function checkString($param, $where) {
+		if (!is_string($param)) {
+			throw new PhpExcelException("Only string can be used as $where.");
+		}
+		return strtoupper($param);
+	}
+
+	/**
+	 *
+	 * @param int $param
+	 * @return int
+	 * @throws PhpExcelException
+	 */
+	private function checkNumber($param) {
+		if (ctype_digit($param) || is_int($param)) {
+			$param = (int) $param;
+			if ($param > 0) {
+				return $param;
+			}
+		}
+		throw new PhpExcelException('Invalid row number given.');
 	}
 
 }

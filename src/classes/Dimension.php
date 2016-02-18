@@ -18,7 +18,7 @@ class Dimension extends Object {
 	 * @throws PhpExcelException
 	 */
 	public function __construct($dimensionString) {
-		$dimensionStringUpper = $this->checkDimensionValidity($dimensionString);
+		$dimensionStringUpper = $this->checkDimension($dimensionString);
 		$dimension = $this->separateDimension($dimensionStringUpper);
 		$this->topLeft = $dimension[0];
 		$this->bottomRight = $dimension[1];
@@ -106,12 +106,12 @@ class Dimension extends Object {
 	 * @return string
 	 * @throws PhpExcelException
 	 */
-	private function checkDimensionValidity($dimensionString) {
+	private function checkDimension($dimensionString) {
 		if (!is_string($dimensionString)) {
 			throw new PhpExcelException('Only string can be used as dimension.');
 		}
 		$dimensionStringUpper = strtoupper($dimensionString);
-		if (!preg_match('/^[A-Z]+\d+:[A-Z]+\d+$/i', $dimensionStringUpper)) {
+		if (!preg_match('/^[A-Z]+[1-9]+\d*:[A-Z]+[1-9]+\d*$/i', $dimensionStringUpper)) {
 			throw new PhpExcelException("Invalid dimension format '$dimensionString'.");
 		}
 		return $dimensionStringUpper;

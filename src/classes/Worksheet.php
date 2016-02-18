@@ -53,6 +53,18 @@ class Worksheet extends \Nette\Object {
 	}
 
 	/**
+	 * Set a cell value
+	 *
+	 * @param string $pCoordinate Coordinate of the cell
+	 * @param mixed $pValue Value of the cell
+	 * @return Worksheet
+	 */
+	public function setCellValue($pCoordinate = 'A1', $pValue = null) {
+		$this->sheet->setCellValue($pCoordinate, $pValue);
+		return $this;
+	}
+
+	/**
 	 * Fill worksheet from values in array
 	 *
 	 * @param array $source Source array
@@ -86,11 +98,14 @@ class Worksheet extends \Nette\Object {
 
 	/**
 	 * Apply standard formating for sheet
-	 * @param string $dataRange In format A2:E30
+	 * @param string|null $dataDimension In format A2:E30 or automatically by data dimension
 	 * @return Worksheet
 	 */
-	public function applyStandardSheetFormat($dataRange) {
-		$this->formatter->applyStandardSheetFormat($dataRange);
+	public function applyStandardSheetFormat($dataDimension = null) {
+		if (!$dataDimension) {
+			$dataDimension = (string) $this->getDataDimension();
+		}
+		$this->formatter->applyStandardSheetFormat($dataDimension);
 		return $this;
 	}
 
