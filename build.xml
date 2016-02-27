@@ -23,7 +23,7 @@
     description="Performs static analysis, runs the tests" />
 
     <target name="static-analysis"
-        depends="lint,phploc,pdepend,phpcs,phpcpd"
+        depends="lint,test,phploc,pdepend,phpcs,phpcpd"
         description="Performs static analysis" />
 
 <target name="full-build-parallel"
@@ -38,6 +38,7 @@
                 <antcall target="pdepend" />
             </sequential>
             <antcall target="lint" />
+            <antcall target="test" />
             <antcall target="phpcpd" />
             <antcall target="phpcs" />
             <antcall target="phploc" />
@@ -123,9 +124,12 @@
     unless="test.done" 
     description="Running nette/tester">
     <exec executable="${tester}">
+        <redirector output="${basedir}/build/logs/junit.xml" alwayslog="true" />
         <arg value="-s" />
         <arg value="-c" />
         <arg path="${basedir}/tests/php-unix.ini" />
+        <arg value="-o" />
+        <arg value="junit" />
         <arg path="${basedir}/tests" />
     </exec>
     <property name="test.done" value="true" />
