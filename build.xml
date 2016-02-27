@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="meridius-phpexcel" default="build">
 
-<target name="build" depends="prepare,composer,lint,check,test" />
+<property name="tester" value="${basedir}/vendor/bin/tester" />
+<property name="linter" value="${basedir}/vendor/bin/parallel-lint" />
 
-<target name="clean" unless="clean.done" description="Cleanup build artifacts">
-    <delete dir="${basedir}/build/api"/>
-    <delete dir="${basedir}/build/coverage"/>
-    <delete dir="${basedir}/build/logs"/>
-    <delete dir="${basedir}/build/pdepend"/>
-    <delete dir="${basedir}/build/phpdox"/>
-    <property name="clean.done" value="true"/>
+<target name="build" 
+    depends="prepare,composer,lint,check,test" />
+
+<target name="clean" 
+    unless="clean.done" 
+    description="Cleanup build artifacts">
+    <delete dir="${basedir}/build/api" />
+    <delete dir="${basedir}/build/coverage" />
+    <delete dir="${basedir}/build/logs" />
+    <delete dir="${basedir}/build/pdepend" />
+    <delete dir="${basedir}/build/phpdox" />
+    <delete dir="${basedir}/vendor" />
+    <property name="clean.done" value="true" />
 </target>
 
-<target name="prepare" unless="prepare.done" depends="clean"
+<target name="prepare" 
+    unless="prepare.done" 
+    depends="clean"
     description="Prepare for build">
-    <mkdir dir="${basedir}/build/api"/>
-    <mkdir dir="${basedir}/build/coverage"/>
-    <mkdir dir="${basedir}/build/logs"/>
-    <mkdir dir="${basedir}/build/pdepend"/>
-    <mkdir dir="${basedir}/build/phpdox"/>
-    <property name="prepare.done" value="true"/>
+    <mkdir dir="${basedir}/build/api" />
+    <mkdir dir="${basedir}/build/coverage" />
+    <mkdir dir="${basedir}/build/logs" />
+    <mkdir dir="${basedir}/build/pdepend" />
+    <mkdir dir="${basedir}/build/phpdox" />
+    <property name="prepare.done" value="true" />
 </target>
 
-<target name="composer" description="Installing composer dependencies">
+<target name="composer" 
+    unless="composer.done" 
+    description="Installing project dependencies by composer">
     <exec executable="composer" failonerror="true">
         <arg value="update" />
         <arg value="--no-interaction" />
         <arg value="--prefer-dist" />
     </exec>
+    <property name="composer.done" value="true" />
 </target>
 
-<target name="lint" description="Running php-parallel-lint">
-    <exec executable="composer">
-        <arg value="create-project" />
-        <arg value="--prefer-source" />
-        <arg value="--no-interaction" />
-        <arg value="jakub-onderka/php-parallel-lint" />
-        <arg value="vendor/php-parallel-lint" />
-    </exec>
-    <exec executable="php">
-        <arg value="vendor/php-parallel-lint/parallel-lint.php" />
+<target name="lint" 
+    depends="composer"
+    unless="lint.done" 
+    description="Running php-parallel-lint">
+    <exec executable="${linter}">
         <arg value="-e" />
         <arg value="php,phpt" />
         <arg value="--exclude" />
         <arg path="${basedir}/vendor" />
         <arg path="${basedir}/." />
     </exec>
-    <property name="lint.done" value="true"/>
+    <property name="lint.done" value="true" />
 </target>
 
-<target name="check" description="Running nette/code-checker">
+<target name="check" 
+    unless="check.done" 
+    description="Running nette/code-checker">
     <exec executable="composer">
         <arg value="create-project" />
         <arg value="--prefer-source" />
@@ -67,18 +76,20 @@
         <arg value="-d" />
         <arg path="${basedir}/tests" />
     </exec>
-    <property name="check.done" value="true"/>
+    <property name="check.done" value="true" />
 </target>
 
-<target name="test" description="Running nette/tester">
-    <exec executable="php">
-        <arg value="vendor/bin/tester" />
+<target name="test" 
+    depends="composer"
+    unless="test.done" 
+    description="Running nette/tester">
+    <exec executable="${tester}">
         <arg value="-s" />
         <arg value="-c" />
         <arg path="${basedir}/tests/php-unix.ini" />
         <arg path="${basedir}/tests" />
     </exec>
-    <property name="check.done" value="true"/>
+    <property name="test.done" value="true" />
 </target>
 
 </project>
