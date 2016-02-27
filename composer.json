@@ -21,7 +21,10 @@
 		"nette/utils": "*"
 	},
 	"require-dev": {
-		"meridius/tester-extras": "~1"
+		"meridius/tester-extras": "~1",
+		"nette/code-checker": "^2.6",
+		"jakub-onderka/php-parallel-lint": "^0.9.2",
+		"jakub-onderka/php-console-highlighter": "^0.3.2"
 	},
 	"autoload": {
 		"psr-4": {
