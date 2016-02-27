@@ -72,6 +72,8 @@
         <arg value="update" />
         <arg value="--no-interaction" />
         <arg value="--prefer-dist" />
+        <arg value="-d" />
+        <arg value="${basedir}" />
     </exec>
     <property name="composer.done" value="true" />
 </target>
@@ -88,7 +90,7 @@
         <arg value="php,phpt" />
         <arg value="--exclude" />
         <arg path="${basedir}/vendor" />
-        <arg path="${basedir}/." />
+        <arg path="${basedir}" />
     </exec>
     <property name="lint.done" value="true" />
 </target>
