@@ -6,6 +6,9 @@
 <!-- Nette/Tester -->
 <property name="tester" value="${basedir}/vendor/bin/tester" />
 
+<!-- Nette/code-checker -->
+<property name="checker-file" value="${basedir}/vendor/code-checker/src/code-checker.php" />
+
 <!-- PHP Parallel Lint -->
 <property name="linter" value="${basedir}/vendor/bin/parallel-lint" />
 
@@ -95,9 +98,21 @@
     <property name="composer.done" value="true" />
 </target>
 
+<target name="_check-phpcs-installed">
+    <condition property="_is-phpcs-installed">
+        <available file="${phpcs}" type="file" />
+    </condition>
+</target>
+
+<target name="_install-phpcs"
+    depends="_check-phpcs-installed"
+    unless="_is-phpcs-installed">
+    <antcall target="${composer}" />
+</target>
+
 <target name="_check-code-checker-installed">
     <condition property="_is-code-checker-installed">
-        <available file="${basedir}/vendor/code-checker" type="dir" />
+        <available file="${checker-file}" type="file" />
     </condition>
 </target>
 
@@ -135,12 +150,12 @@
     depends="_install-code-checker"
     description="Running nette/code-checker">
     <exec executable="php">
-        <arg value="vendor/code-checker/src/code-checker.php" />
+        <arg file="${checker-file}" />
         <arg value="-d" />
         <arg path="${basedir}/src" />
     </exec>
     <exec executable="php">
-        <arg value="vendor/code-checker/src/code-checker.php" />
+        <arg file="${checker-file}" />
         <arg value="-d" />
         <arg path="${basedir}/tests" />
     </exec>
@@ -197,7 +212,7 @@
 
 <target name="cs"
     unless="cs.done"
-    depends="prepare"
+    depends="_install-phpcs"
     description="Find coding standard violations using PHP_CodeSniffer and log result in XML format.">
     <exec executable="${phpcs}" output="/dev/null" taskname="phpcs">
         <arg value="--report=checkstyle" />
@@ -212,7 +227,7 @@
 
 <target name="cs-human"
     unless="cs-human.done"
-    depends="prepare"
+    depends="_install-phpcs"
     description="Find coding standard violations using PHP_CodeSniffer and report to standard output in human-friendly format.">
     <exec executable="${phpcs}" taskname="phpcs">
         <arg value="--report=full" />
@@ -229,7 +244,7 @@
 
 <target name="cs-fix"
     unless="cs-fix.done"
-    depends="prepare"
+    depends="_install-phpcs"
     description="Fix coding standard violations using PHP Code Beautifier and Fixer.">
     <exec executable="${phpcbf}" taskname="phpcs">
         <arg value="--colors" />
