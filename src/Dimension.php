@@ -90,6 +90,7 @@ class Dimension extends Object {
 
 	/**
 	 *
+	 * @param string $dimensionString
 	 * @return Coordinate[] [top left coordinate, bottom right coordinate]
 	 */
 	private function separateDimension($dimensionString) {

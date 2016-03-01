@@ -2,9 +2,9 @@
 
 namespace Meridius\PhpExcel;
 
+use Meridius\Helpers\StringHelper;
 use Meridius\PhpExcel\ExcelFieldType;
 use Meridius\PhpExcel\PhpExcelException;
-use Meridius\Helpers\StringHelper;
 
 class Reader extends \Nette\Object implements \Iterator {
 
@@ -136,7 +136,7 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 * Sets sheet index to be read
-	 * @param int $sheetIndex zero indexed
+	 * @param integer $sheetIndex zero indexed
 	 * @return Reader
 	 */
 	public function setSheetToRead($sheetIndex) {
@@ -156,7 +156,7 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 * Sets header row number
-	 * @param int $headerRow
+	 * @param integer $headerRow
 	 * @return Reader
 	 */
 	public function setHeaderRowNumber($headerRow) {
@@ -176,7 +176,7 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 * Sets wether to delete file
-	 * @param bool $delete
+	 * @param boolean $delete
 	 * @return Reader
 	 */
 	public function deleteFileOnFinish($delete = true) {
@@ -324,7 +324,7 @@ class Reader extends \Nette\Object implements \Iterator {
 		if (strlen($value) > 0 && !is_numeric($value)) {
 			throw new PhpExcelException(
 				"Invalid date value '$value'. "
-				. "Make sure the cell is formatted as date. "
+				. 'Make sure the cell is formatted as date. '
 				. "Field '$originalFieldName', "
 				. "Row '" . $this->currentRow . "'"
 			);

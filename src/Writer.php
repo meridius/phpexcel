@@ -2,7 +2,9 @@
 
 namespace Meridius\PhpExcel;
 
-class Writer extends \Nette\Object {
+use Nette\Object;
+
+class Writer extends Object {
 
 	/**
 	 *

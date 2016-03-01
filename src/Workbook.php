@@ -3,14 +3,14 @@
 namespace Meridius\PhpExcel;
 
 use Meridius\Helpers\ExcelHelper;
-use Meridius\PhpExcel\PhpExcelException;
+use Nette\Object;
 use PHPExcel as PhpOffice_PHPExcel;
 use PHPExcel_IOFactory as PhpOffice_PHPExcel_IOFactory;
 use PHPExcel_Reader_Exception as PhpOffice_PHPExcel_Reader_Exception;
 use PHPExcel_Writer_Exception as PhpOffice_PHPExcel_Writer_Exception;
 use PHPExcel_Writer_IWriter as PhpOffice_PHPExcel_Writer_IWriter;
 
-class Workbook extends \Nette\Object {
+class Workbook extends Object {
 
 	const PHPEXCEL_2007 = 'Excel2007';
 	const PHPEXCEL_2003 = 'Excel5';
@@ -41,7 +41,7 @@ class Workbook extends \Nette\Object {
 				? PhpOffice_PHPExcel_IOFactory::load($filePath)
 				: new PhpOffice_PHPExcel;
 		} catch (PhpOffice_PHPExcel_Reader_Exception $ex) {
-			throw new PhpExcelException("Unable to create excel object.", 0, $e);
+			throw new PhpExcelException('Unable to create excel object.', 0, $e);
 		}
 		if ($filePath) {
 			$this->excelType = PhpOffice_PHPExcel_IOFactory::identify($filePath);
@@ -87,7 +87,7 @@ class Workbook extends \Nette\Object {
 
 	/**
 	 *
-	 * @param int $sheetIndex
+	 * @param integer $sheetIndex
 	 * @return Worksheet
 	 */
 	public function getSheetByIndex($sheetIndex = 0) {
@@ -143,6 +143,13 @@ class Workbook extends \Nette\Object {
 	public function setDefaultDateFormat($dateFormat) {
 		$this->dateFormat = $dateFormat;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultDateFormat() {
+		return $this->dateFormat;
 	}
 
 	/**

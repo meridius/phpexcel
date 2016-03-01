@@ -72,9 +72,9 @@ class CoordinateTest extends TestCase {
 	/**
 	 * @dataProvider getFailingData
 	 */
-	public function testFailing($dimensionString) {
-		Assert::exception(function() use ($dimensionString) {
-			$dimension = new Coordinate($dimensionString);
+	public function testFailing($coordinateString) {
+		Assert::exception(function() use ($coordinateString) {
+			$coordinate = new Coordinate($coordinateString);
 		}, PhpExcelException::class);
 	}
 
@@ -91,6 +91,16 @@ class CoordinateTest extends TestCase {
 			['AS54:-G8'],
 			['R7C5:R78C4'],
 		];
+	}
+
+	public function testFailingShiftBy() {
+		$coordinate = new Coordinate('A1');
+		Assert::exception(function() use ($coordinate) {
+			$coordinate->shiftColBy('not int');
+		}, PhpExcelException::class);
+		Assert::exception(function() use ($coordinate) {
+			$coordinate->shiftRowBy('not int');
+		}, PhpExcelException::class);
 	}
 
 }

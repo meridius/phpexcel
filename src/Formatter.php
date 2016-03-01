@@ -2,15 +2,16 @@
 
 namespace Meridius\PhpExcel;
 
-use \Meridius\PhpExcel\PhpExcelException;
-use \PHPExcel_Cell as PhpOffice_PHPExcel_Cell;
-use \PHPExcel_Worksheet as PhpOffice_PHPExcel_Worksheet;
-use \PHPExcel_Style_Fill as PhpOffice_PHPExcel_Style_Fill;
-use \PHPExcel_Style_Alignment as PhpOffice_PHPExcel_Style_Alignment;
-use \PHPExcel_Style_Protection as PhpOffice_PHPExcel_Style_Protection;
-use \PHPExcel_Cell_DataValidation as PhpOffice_PHPExcel_Cell_DataValidation;
+use Meridius\PhpExcel\PhpExcelException;
+use Nette\Object;
+use PHPExcel_Cell as PhpOffice_PHPExcel_Cell;
+use PHPExcel_Cell_DataValidation as PhpOffice_PHPExcel_Cell_DataValidation;
+use PHPExcel_Style_Alignment as PhpOffice_PHPExcel_Style_Alignment;
+use PHPExcel_Style_Fill as PhpOffice_PHPExcel_Style_Fill;
+use PHPExcel_Style_Protection as PhpOffice_PHPExcel_Style_Protection;
+use PHPExcel_Worksheet as PhpOffice_PHPExcel_Worksheet;
 
-class Formatter extends \Nette\Object {
+class Formatter extends Object {
 
 	const DATE_FORMAT_EXCEL = 'd-mmm-yyyy';
 	const TIME_FORMAT_EXCEL = 'h:mm';
@@ -103,12 +104,12 @@ class Formatter extends \Nette\Object {
 	 * @throws PhpExcelException
 	 */
 	public function setDataValidationRange($range, $sourceDataFormula,
-		$errorMessage = "Invalid data") {
+		$errorMessage = 'Invalid data') {
 		$regCoor = '([a-zA-Z]+)(\d+)';
 		if (!preg_match("/$regCoor:$regCoor/", $range)) {
-			throw new PhpExcelException("Range is not in valid format");
+			throw new PhpExcelException('Range is not in valid format');
 		}
-		list($fromCoordinates, $toCoordinates) = explode(":", $range);
+		list($fromCoordinates, $toCoordinates) = explode(':', $range);
 		$matches = [];
 		preg_match("/$regCoor/", $fromCoordinates, $matches);
 		list(, $fromColName, $fromRowNum) = $matches; // skip $matches[0]
@@ -148,7 +149,7 @@ class Formatter extends \Nette\Object {
 	 */
 	public function autosizeColumns($startColName = null, $endColName = null) {
 		if (is_null($startColName) || is_null($endColName)) {
-			list($startCoordinates, $endCoordinates) = explode(":", $this->sheet->calculateWorksheetDataDimension());
+			list($startCoordinates, $endCoordinates) = explode(':', $this->sheet->calculateWorksheetDataDimension());
 			$startColName = is_null($startColName) ? preg_replace('/\d*/', '', $startCoordinates) : $startColName;
 			$endColName = is_null($endColName) ? preg_replace('/\d*/', '', $endCoordinates) : $endColName;
 		}
@@ -177,7 +178,7 @@ class Formatter extends \Nette\Object {
 	 * @param string $address In format A1
 	 * @return Formatter
 	 */
-	public function freezePane($address = "A2") {
+	public function freezePane($address = 'A2') {
 		$this->sheet->freezePane($address);
 		return $this;
 	}
@@ -187,7 +188,7 @@ class Formatter extends \Nette\Object {
 	 * @param string $address In format A1
 	 * @return Formatter
 	 */
-	public function setSelectedCell($address = "A1") {
+	public function setSelectedCell($address = 'A1') {
 		$this->sheet->setSelectedCell($address);
 		return $this;
 	}
@@ -204,7 +205,7 @@ class Formatter extends \Nette\Object {
 					'fill' => [
 						'type' => PhpOffice_PHPExcel_Style_Fill::FILL_SOLID,
 						'color' => ['rgb' => $rgb],
-					]
+					],
 				]
 		);
 		return $this;
@@ -212,7 +213,7 @@ class Formatter extends \Nette\Object {
 
 	/**
 	 *
-	 * @param int $height
+	 * @param integer $height
 	 * @return Formatter
 	 */
 	public function setRowsHeight($height = -1) {

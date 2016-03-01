@@ -2,11 +2,13 @@
 
 namespace Meridius\PhpExcel;
 
-use \PHPExcel_Worksheet as PhpOffice_PHPExcel_Worksheet;
-use \PHPExcel_Exception as PhpOffice_PHPExcel_Exception;
-use Meridius\PhpExcel\Formatter;
+use Nette\Object;
+use Nette\Utils\DateTime;
+use PHPExcel_Exception as PhpOffice_PHPExcel_Exception;
+use PHPExcel_Shared_Date as PhpOffice_PHPExcel_Shared_Date;
+use PHPExcel_Worksheet as PhpOffice_PHPExcel_Worksheet;
 
-class Worksheet extends \Nette\Object {
+class Worksheet extends Object {
 
 	/** @var PhpOffice_PHPExcel_Worksheet */
 	private $sheet;
@@ -71,20 +73,24 @@ class Worksheet extends \Nette\Object {
 	 * @param mixed $nullValue Value in source array that stands for blank cell
 	 * @param string $startCell Insert array starting from this cell address as the top left coordinate
 	 * @param boolean $strictNullComparison Apply strict comparison when testing for null values in the array
-	 * @throws PhpOffice_PHPExcel_Exception
+	 * @throws PhpExcelException
 	 * @return Worksheet
 	 */
 	public function fromArray($source = null, $nullValue = null, $startCell = 'A1', $strictNullComparison = false) {
 		foreach ($source as &$row) {
 			if (is_array($row)) {
 				foreach ($row as $key => $value) {
-					if ($value instanceof \Nette\Utils\DateTime) {
-						$row[$key] = \PHPExcel_Shared_Date::PHPToExcel($value);
+					if ($value instanceof DateTime) {
+						$row[$key] = PhpOffice_PHPExcel_Shared_Date::PHPToExcel($value);
 					}
 				}
 			}
 		}
-		$this->sheet->fromArray($source, $nullValue, $startCell, $strictNullComparison);
+		try {
+			$this->sheet->fromArray($source, $nullValue, $startCell, $strictNullComparison);
+		} catch (PhpOffice_PHPExcel_Exception $ex) {
+			throw new PhpExcelException('Unable to paste the array to worksheet', $ex->getCode(), $ex);
+		}
 		return $this;
 	}
 

@@ -58,7 +58,7 @@ class Coordinate extends Object {
 
 	/**
 	 *
-	 * @param int $rowNum
+	 * @param integer $rowNum
 	 * @return Coordinate
 	 * @throws PhpExcelException
 	 */
@@ -69,7 +69,7 @@ class Coordinate extends Object {
 
 	/**
 	 * How many columns add/remove to coordinate
-	 * @param int $numCols positive value will add, negative will remove
+	 * @param integer $numCols positive value will add, negative will remove
 	 * @return Coordinate
 	 */
 	public function shiftColBy($numCols = 0) {
@@ -86,7 +86,7 @@ class Coordinate extends Object {
 
 	/**
 	 * How many rows add/remove to coordinate
-	 * @param int $numRows positive value will add, negative will remove
+	 * @param integer $numRows positive value will add, negative will remove
 	 * @return Coordinate
 	 * @throws PhpExcelException
 	 */
@@ -158,7 +158,7 @@ class Coordinate extends Object {
 
 	/**
 	 *
-	 * @param int $param
+	 * @param integer $param
 	 * @return int
 	 * @throws PhpExcelException
 	 */

@@ -24,7 +24,7 @@ class TempExcelStorage extends Object {
 	/**
 	 * Saves excel to temp storage and returns path to saved file
 	 * @param Workbook $excel
-	 * @param bool $returnFileNameOnly
+	 * @param boolean $returnFileNameOnly
 	 * @param string $type
 	 * @return string path to saved file
 	 */

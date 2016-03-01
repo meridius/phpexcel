@@ -2,7 +2,7 @@
 
 namespace Meridius\PhpExcel;
 
-use \Meridius\PhpExcel\PhpExcelException;
+use Meridius\PhpExcel\PhpExcelException;
 
 abstract class AbstractExcelEntity extends \Nette\Object {
 
