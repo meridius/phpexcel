@@ -103,7 +103,6 @@
         <available file="${phpcs}" type="file" />
     </condition>
 </target>
-
 <target name="_install-phpcs"
     depends="_check-phpcs-installed"
     unless="_is-phpcs-installed">
@@ -115,7 +114,6 @@
         <available file="${checker-file}" type="file" />
     </condition>
 </target>
-
 <target name="_install-code-checker"
     depends="_check-code-checker-installed"
     unless="_is-code-checker-installed">
@@ -219,6 +217,7 @@
         <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
         <arg value="--standard=ruleset.xml" />
         <arg value="--extensions=php,phpt" />
+        <arg value="--ignore=*/tests/tmp/*" />
         <arg path="${basedir}/src" />
         <arg path="${basedir}/tests" />
     </exec>
@@ -236,6 +235,7 @@
         <arg value="-s" />
         <arg value="--standard=ruleset.xml" />
         <arg value="--extensions=php,phpt" />
+        <arg value="--ignore=*/tests/tmp/*" />
         <arg path="${basedir}/src" />
         <arg path="${basedir}/tests" />
     </exec>
@@ -250,7 +250,8 @@
         <arg value="--colors" />
         <arg value="--standard=ruleset.xml" />
         <arg value="--extensions=php,phpt" />
-        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage" />
+        <arg value="--ignore=*/tests/tmp/*" />
+        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage,Generic.Files.LineEndings,SlevomatCodingStandard.Arrays.TrailingArrayComma,SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses" />
         <arg path="${basedir}/src" />
         <arg path="${basedir}/tests" />
     </exec>
