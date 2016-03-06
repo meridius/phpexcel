@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Meridius PHPExcel">
+
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException" />
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword.NonFullyQualifiedExtends" />
+        <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces.NonFullyQualified" />
+        <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" />
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar" />
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword">
+        <properties>
+            <property name="keywordsToCheck" type="array" value="T_EXTENDS,T_IMPLEMENTS"/>
+        </properties>
+    </rule>
+
+    <rule ref="vendor/consistence/coding-standard/Consistence/ruleset.xml">
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman" />
+        <exclude name="PEAR.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+        <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
+    </rule>
+
+</ruleset>
