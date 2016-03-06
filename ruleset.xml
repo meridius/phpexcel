@@ -1,30 +1,122 @@
 <?xml version="1.0"?>
 <ruleset name="Meridius Coding Standard">
 
+    <rule ref="PSR1" />
+    
+    <rule ref="PHPCS" />
+    
+    <rule ref="Zend">
+        <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+    </rule>
+    
+    <rule ref="PSR2">
+        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+    </rule>
+    
+    <rule ref="MySource">
+        <exclude name="MySource.Channels.IncludeSystem.NotIncludedCall" />
+        <exclude name="MySource.Channels.IncludeSystem.NotIncludedExtends" />
+        <exclude name="MySource.Commenting.FunctionComment.Missing" />
+        <exclude name="MySource.Commenting.FunctionComment.MissingParamComment" />
+        <exclude name="MySource.Commenting.FunctionComment.MissingParamTag" />
+        <exclude name="MySource.Commenting.FunctionComment.MissingReturn" />
+        <exclude name="MySource.Commenting.FunctionComment.ParamCommentFullStop" />
+        <exclude name="MySource.Commenting.FunctionComment.ParamCommentNotCapital" />
+        <exclude name="MySource.Commenting.FunctionComment.SpacingAfterParamName" />
+        <exclude name="MySource.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="MySource.PHP.ReturnFunctionValue.NotAssigned" />
+        <!-- temporary excluded because they are right and I need to fix that -->
+        <!-- <exclude name="MySource.Commenting.FunctionComment.EmptyThrows" /> -->
+        <!-- <exclude name="MySource.Commenting.FunctionComment.InvalidReturn" /> -->
+        <!-- <exclude name="MySource.Commenting.FunctionComment.ScalarTypeHintMissing" /> -->
+        <!-- <exclude name="MySource.Commenting.FunctionComment.TypeHintMissing" /> -->
+    </rule>
+    
+    <rule ref="PEAR">
+        <exclude name="PEAR.Commenting.ClassComment.Missing" />
+        <exclude name="PEAR.Commenting.FileComment.Missing" />
+        <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamName" />
+        <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="PEAR.Functions.FunctionDeclaration.BraceOnSameLine" />
+        <exclude name="PEAR.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
+        <exclude name="PEAR.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+        <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact" />
+        <!-- temporary excluded because they are right and I need to fix that -->
+        <!-- <exclude name="PEAR.Commenting.FunctionComment.Missing" /> -->
+        <!-- <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" /> -->
+        <!-- <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag" /> -->
+        <!-- <exclude name="PEAR.Commenting.FunctionComment.MissingReturn" /> -->
+        <!-- <exclude name="PEAR.WhiteSpace.ScopeIndent.Incorrect" /> -->
+    </rule>
+
+    <rule ref="Squiz">
+        <exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
+        <exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
+        <exclude name="Generic.Commenting.DocComment.NonParamGroup" />
+        <exclude name="Generic.Commenting.DocComment.SpacingBeforeTags" />
+        <exclude name="Generic.Commenting.DocComment.TagValueIndent" />
+        <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSame" />
+        <exclude name="Generic.WhiteSpace.DisallowTabIndent.TabsUsed" />
+        <exclude name="Squiz.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <exclude name="Squiz.Commenting.ClassComment.Missing" />
+        <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
+        <exclude name="Squiz.Commenting.FileComment.Missing" />
+        <exclude name="Squiz.Commenting.InlineComment.NotCapital" />
+        <exclude name="Squiz.Commenting.LongConditionClosingComment.Missing" />
+        <exclude name="Squiz.Commenting.PostStatementComment.Found" />
+        <exclude name="Squiz.ControlStructures.InlineIfDeclaration.NoBrackets" />
+        <exclude name="Squiz.ControlStructures.InlineIfDeclaration.NotSingleLine" />
+        <exclude name="Squiz.ControlStructures.InlineIfDeclaration.SpacingAfterThen" />
+        <exclude name="Squiz.ControlStructures.InlineIfDeclaration.SpacingBeforeElse" />
+        <exclude name="Squiz.ControlStructures.SwitchDeclaration.BreakIndent" />
+        <exclude name="Squiz.ControlStructures.SwitchDeclaration.MissingDefault" />
+        <exclude name="Squiz.Files.FileExtension.ClassFound" />
+        <exclude name="Squiz.Formatting.OperatorBracket.MissingBrackets" />
+        <exclude name="Squiz.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
+        <exclude name="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
+        <exclude name="Squiz.Objects.ObjectInstantiation.NotAssigned" />
+        <exclude name="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue" />
+        <exclude name="Squiz.Operators.ComparisonOperatorUsage.NotAllowed" />
+        <exclude name="Squiz.PHP.DisallowComparisonAssignment.AssignedComparison" />
+        <exclude name="Squiz.PHP.DisallowInlineIf.Found" />
+        <exclude name="Squiz.PHP.ForbiddenFunctions.Found" />
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.NoLineAfterClose" />
+        <exclude name="Squiz.WhiteSpace.FunctionClosingBraceSpace.SpacingBeforeClose" />
+        <!-- temporary excluded because they are right and I need to fix that -->
+        <!-- <exclude name="Generic.Commenting.DocComment.MissingShort" /> -->
+        <!-- <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" /> -->
+        <!-- <exclude name="Squiz.Commenting.FunctionCommentThrowTag.Missing" /> -->
+        <!-- <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" /> -->
+        <!-- <exclude name="Squiz.Commenting.InlineComment.SpacingAfter" /> -->
+        <!-- <exclude name="Squiz.PHP.CommentedOutCode.Found" /> -->
+    </rule>
+
+<!-- 
     <rule ref="./vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
-        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException" />
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword" />
-        <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces.NonFullyQualified" />
-        <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" />
-        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar" />
-    </rule>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException" /> -->
+        <!-- <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces.NonFullyQualified" /> -->
+<!--         <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" />
+    </rule> -->
 
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
-        <properties>
-            <property name="searchAnnotations" value="true" />
-        </properties>
-    </rule>
+    <!-- <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"> -->
+        <!-- <properties> -->
+            <!-- <property name="searchAnnotations" value="true" /> -->
+        <!-- </properties> -->
+    <!-- </rule> -->
 
-    <rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces">
-        <properties>
-            <property name="allowUseFromRootNamespace" value="true"/>
-        </properties>
-    </rule>
+    <!-- <rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"> -->
+        <!-- <properties> -->
+            <!-- <property name="allowUseFromRootNamespace" value="true"/> -->
+        <!-- </properties> -->
+    <!-- </rule> -->
 
     <rule ref="./vendor/consistence/coding-standard/Consistence/ruleset.xml">
         <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman" />
         <exclude name="PEAR.Classes.ClassDeclaration.OpenBraceNewLine" />
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar" />
         <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
     </rule>
 

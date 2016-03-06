@@ -2,11 +2,15 @@
 
 namespace Meridius\PhpExcel;
 
+use Exception;
+use Iterator;
 use Meridius\Helpers\StringHelper;
-use Meridius\PhpExcel\ExcelFieldType;
-use Meridius\PhpExcel\PhpExcelException;
+use Nette\Object;
+use PHPExcel_IOFactory as PhpOffice_PHPExcel_IOFactory;
+use PHPExcel_Shared_Date as PhpOffice_PHPExcel_Shared_Date;
+use PHPExcel_Worksheet as PhpOffice_PHPExcel_Worksheet;
 
-class Reader extends \Nette\Object implements \Iterator {
+class Reader extends Object implements Iterator {
 
 	/** @var string */
 	private $file;
@@ -14,7 +18,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	/** @var \PHPExcel */
 	private $excel;
 
-	/** @var \PHPExcel_Worksheet */
+	/** @var PhpOffice_PHPExcel_Worksheet */
 	private $activeSheet;
 
 	/** @var string */
@@ -69,11 +73,11 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 * Opens excel file
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 * @throws PhpExcelException
 	 */
 	public function open() {
-		$reader = \PHPExcel_IOFactory::createReaderForFile($this->file);
+		$reader = PhpOffice_PHPExcel_IOFactory::createReaderForFile($this->file);
 		if (count($this->sheetsToLoad) > 0) {
 			$reader->setLoadSheetsOnly($this->sheetsToLoad);
 		}
@@ -82,13 +86,13 @@ class Reader extends \Nette\Object implements \Iterator {
 		if (is_null($this->sheetName)) {
 			try {
 				$this->activeSheet = $this->excel->getSheet($this->sheetIndex);
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				throw new PhpExcelException("Sheet index '$this->sheetIndex' is out of range of excel indexes.");
 			}
 		} else {
 			$this->activeSheet = $this->excel->getSheetByName($this->sheetName);
 		}
-		if (!($this->activeSheet instanceof \PHPExcel_Worksheet)) {
+		if (!($this->activeSheet instanceof PhpOffice_PHPExcel_Worksheet)) {
 			throw new PhpExcelException("Sheet with name '$this->sheetName' does not exist in input excel.");
 		}
 		$this->mapHeaders();
@@ -96,7 +100,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	}
 
 	/**
-	 * @return \PHPExcel_Worksheet
+	 * @return PhpOffice_PHPExcel_Worksheet
 	 */
 	public function getActiveSheet() {
 		return $this->activeSheet;
@@ -105,7 +109,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	/**
 	 * Sets fields to read (header cells)
 	 * @param array $fields
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setFieldsToRead(array $fields) {
 		$this->fieldsToRead = $fields;
@@ -121,7 +125,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	 * Sets mx range of colunmns to read
 	 * @param string $from
 	 * @param string $to
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setExcelColumnsRange($from = 'A', $to = 'Z') {
 		$this->excelColumnsRange = [];
@@ -137,7 +141,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	/**
 	 * Sets sheet index to be read
 	 * @param integer $sheetIndex zero indexed
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setSheetToRead($sheetIndex) {
 		$this->sheetIndex = $sheetIndex;
@@ -147,7 +151,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	/**
 	 * Sets sheet name to be read
 	 * @param string $sheetName
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setSheetNameToRead($sheetName) {
 		$this->sheetName = $sheetName;
@@ -157,7 +161,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	/**
 	 * Sets header row number
 	 * @param integer $headerRow
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setHeaderRowNumber($headerRow) {
 		$this->headerRow = $headerRow;
@@ -177,7 +181,7 @@ class Reader extends \Nette\Object implements \Iterator {
 	/**
 	 * Sets wether to delete file
 	 * @param boolean $delete
-	 * @return Reader
+	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function deleteFileOnFinish($delete = true) {
 		$this->deleteFileOnFinish = $delete;
@@ -186,7 +190,7 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function key() {
 		return $this->currentRow;
@@ -194,7 +198,7 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 *
-	 * @return int
+	 * @return void
 	 */
 	public function next() {
 		$this->currentRow++;
@@ -202,7 +206,7 @@ class Reader extends \Nette\Object implements \Iterator {
 
 	/**
 	 *
-	 * @return int
+	 * @return void
 	 */
 	public function rewind() {
 		$this->currentRow = $this->firstDataRow;
@@ -329,7 +333,7 @@ class Reader extends \Nette\Object implements \Iterator {
 				. "Row '" . $this->currentRow . "'"
 			);
 		}
-		return strlen($value) > 0 ? \PHPExcel_Shared_Date::ExcelToPHPObject($value) : null;
+		return strlen($value) > 0 ? PhpOffice_PHPExcel_Shared_Date::ExcelToPHPObject($value) : null;
 	}
 
 	/**

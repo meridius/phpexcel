@@ -103,8 +103,7 @@ class Formatter extends Object {
 	 * @return Formatter
 	 * @throws PhpExcelException
 	 */
-	public function setDataValidationRange($range, $sourceDataFormula,
-		$errorMessage = 'Invalid data') {
+	public function setDataValidationRange($range, $sourceDataFormula, $errorMessage = 'Invalid data') {
 		$regCoor = '([a-zA-Z]+)(\d+)';
 		if (!preg_match("/$regCoor:$regCoor/", $range)) {
 			throw new PhpExcelException('Range is not in valid format');
@@ -207,7 +206,7 @@ class Formatter extends Object {
 						'color' => ['rgb' => $rgb],
 					],
 				]
-		);
+			);
 		return $this;
 	}
 

@@ -130,8 +130,8 @@ class Workbook extends Object {
 			$lastRow = count($data) + 1;
 			$lastCol = count($header);
 			$sheet->applyStandardSheetFormat(
-					'A1:' . ExcelHelper::getExcelColumnName($lastCol) . $lastRow
-				);
+				'A1:' . ExcelHelper::getExcelColumnName($lastCol) . $lastRow
+			);
 		}
 		return $sheet;
 	}
