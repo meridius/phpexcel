@@ -2,6 +2,8 @@
 
 namespace Meridius\PhpExcel;
 
-class PhpExcelException extends \Exception {
+use Exception;
+
+class PhpExcelException extends Exception {
 
 }

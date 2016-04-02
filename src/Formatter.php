@@ -2,7 +2,6 @@
 
 namespace Meridius\PhpExcel;
 
-use Meridius\PhpExcel\PhpExcelException;
 use Nette\Object;
 use PHPExcel_Cell as PhpOffice_PHPExcel_Cell;
 use PHPExcel_Cell_DataValidation as PhpOffice_PHPExcel_Cell_DataValidation;
@@ -20,6 +19,10 @@ class Formatter extends Object {
 	/** @var PhpOffice_PHPExcel_Worksheet */
 	private $sheet;
 
+	/**
+	 *
+	 * @param PhpOffice_PHPExcel_Worksheet $sheet
+	 */
 	public function __construct(PhpOffice_PHPExcel_Worksheet $sheet) {
 		$this->sheet = $sheet;
 	}
@@ -83,19 +86,6 @@ class Formatter extends Object {
 	}
 
 	/**
-	 * Set format for column
-	 * @param string $columnName
-	 * @return Formatter
-	 */
-	private function formatColumn($columnName, $formatString) {
-		$this->sheet
-			->getStyle($columnName . '1:' . $columnName . $this->sheet->getHighestDataRow())
-			->getNumberFormat()
-			->setFormatCode($formatString);
-		return $this;
-	}
-
-	/**
 	 * Set excel validation for cell range
 	 * @param string $range In format A2:E30
 	 * @param string $sourceDataFormula In format Sites!$A$2:$A$4233
@@ -111,9 +101,9 @@ class Formatter extends Object {
 		list($fromCoordinates, $toCoordinates) = explode(':', $range);
 		$matches = [];
 		preg_match("/$regCoor/", $fromCoordinates, $matches);
-		list(, $fromColName, $fromRowNum) = $matches; // skip $matches[0]
+		list(, $fromColName, $fromRowNum) = $matches; // intentional skip
 		preg_match("/$regCoor/", $toCoordinates, $matches);
-		list(, $toColName, $toRowNum) = $matches; // skip $matches[0]
+		list(, $toColName, $toRowNum) = $matches; // intentional skip
 
 		$fromColNum = PhpOffice_PHPExcel_Cell::columnIndexFromString($fromColName); // A = 1
 		$toColNum = PhpOffice_PHPExcel_Cell::columnIndexFromString($toColName);
@@ -194,7 +184,8 @@ class Formatter extends Object {
 
 	/**
 	 *
-	 * @param sring $range In format A2:E30
+	 * @param string $range In format A2:E30
+	 * @param string $rgb The color as an RGB value in format AA12BB
 	 * @return Formatter
 	 */
 	public function setBackgroundColor($range, $rgb) {
@@ -212,7 +203,7 @@ class Formatter extends Object {
 
 	/**
 	 *
-	 * @param integer $height
+	 * @param int $height
 	 * @return Formatter
 	 */
 	public function setRowsHeight($height = -1) {
@@ -224,7 +215,7 @@ class Formatter extends Object {
 
 	/**
 	 *
-	 * @param type $range
+	 * @param string $range Range in format A1:A1
 	 * @return Formatter
 	 */
 	public function mergeAndCenter($range) {
@@ -232,6 +223,20 @@ class Formatter extends Object {
 		$this->sheet->getStyle($range)
 			->getAlignment()
 			->setHorizontal(PhpOffice_PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		return $this;
+	}
+
+	/**
+	 * Set format for column
+	 * @param string $columnName
+	 * @param string $formatString
+	 * @return \Meridius\PhpExcel\Formatter
+	 */
+	private function formatColumn($columnName, $formatString) {
+		$this->sheet
+			->getStyle($columnName . '1:' . $columnName . $this->sheet->getHighestDataRow())
+			->getNumberFormat()
+			->setFormatCode($formatString);
 		return $this;
 	}
 

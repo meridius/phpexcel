@@ -65,6 +65,9 @@ class Reader extends Object implements Iterator {
 		$this->file = $file;
 	}
 
+	/**
+	 * If set, will delete file file on finish
+	 */
 	public function __destruct() {
 		if ($this->deleteFileOnFinish) {
 			unlink($this->file);
@@ -140,7 +143,7 @@ class Reader extends Object implements Iterator {
 
 	/**
 	 * Sets sheet index to be read
-	 * @param integer $sheetIndex zero indexed
+	 * @param int $sheetIndex zero indexed
 	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setSheetToRead($sheetIndex) {
@@ -160,7 +163,7 @@ class Reader extends Object implements Iterator {
 
 	/**
 	 * Sets header row number
-	 * @param integer $headerRow
+	 * @param int $headerRow
 	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function setHeaderRowNumber($headerRow) {
@@ -180,7 +183,7 @@ class Reader extends Object implements Iterator {
 
 	/**
 	 * Sets wether to delete file
-	 * @param boolean $delete
+	 * @param bool $delete
 	 * @return \Meridius\PhpExcel\Reader
 	 */
 	public function deleteFileOnFinish($delete = true) {
@@ -190,7 +193,7 @@ class Reader extends Object implements Iterator {
 
 	/**
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function key() {
 		return $this->currentRow;

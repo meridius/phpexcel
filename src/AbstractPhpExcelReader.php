@@ -2,10 +2,6 @@
 
 namespace Meridius\PhpExcel;
 
-use Meridius\PhpExcel\AbstractExcelEntity;
-use Meridius\PhpExcel\ITempUploadStorage;
-use Meridius\PhpExcel\PhpExcelException;
-use Meridius\PhpExcel\Reader;
 use Nette\Object;
 
 abstract class AbstractPhpExcelReader extends Object {
@@ -16,6 +12,11 @@ abstract class AbstractPhpExcelReader extends Object {
 	/** @var AbstractExcelEntity */
 	private $blankEntity;
 
+	/**
+	 *
+	 * @param ITempUploadStorage $tempUploadStorage
+	 * @param AbstractExcelEntity $blankEntity
+	 */
 	public function __construct(ITempUploadStorage $tempUploadStorage, AbstractExcelEntity $blankEntity) {
 		$this->tempUploadStorage = $tempUploadStorage;
 		$this->blankEntity = $blankEntity;
