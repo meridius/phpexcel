@@ -3,7 +3,6 @@
 namespace Meridius\PhpExcel;
 
 use Meridius\Helpers\ExcelHelper;
-use Meridius\PhpExcel\PhpExcelException;
 use Nette\Object;
 
 class Coordinate extends Object {
@@ -26,6 +25,10 @@ class Coordinate extends Object {
 		$this->row = $coordinate[1];
 	}
 
+	/**
+	 * Coordinate in format A1
+	 * @return string
+	 */
 	public function __toString() {
 		return $this->col . $this->row;
 	}
@@ -58,7 +61,7 @@ class Coordinate extends Object {
 
 	/**
 	 *
-	 * @param integer $rowNum
+	 * @param int $rowNum
 	 * @return Coordinate
 	 * @throws PhpExcelException
 	 */
@@ -69,8 +72,9 @@ class Coordinate extends Object {
 
 	/**
 	 * How many columns add/remove to coordinate
-	 * @param integer $numCols positive value will add, negative will remove
+	 * @param int $numCols positive value will add, negative will remove
 	 * @return Coordinate
+	 * @throws PhpExcelException
 	 */
 	public function shiftColBy($numCols = 0) {
 		if (!is_int($numCols)) {
@@ -86,7 +90,7 @@ class Coordinate extends Object {
 
 	/**
 	 * How many rows add/remove to coordinate
-	 * @param integer $numRows positive value will add, negative will remove
+	 * @param int $numRows positive value will add, negative will remove
 	 * @return Coordinate
 	 * @throws PhpExcelException
 	 */
@@ -158,7 +162,7 @@ class Coordinate extends Object {
 
 	/**
 	 *
-	 * @param integer $param
+	 * @param int $param
 	 * @return int
 	 * @throws PhpExcelException
 	 */

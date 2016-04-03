@@ -29,7 +29,8 @@
 		"pdepend/pdepend": "^2.2",
 		"phploc/phploc": "^3.0",
 		"slevomat/coding-standard": "^1.0",
-		"consistence/coding-standard": "^0.10.1"
+		"consistence/coding-standard": "^0.10.1",
+		"escapestudios/symfony2-coding-standard": "^2.9"
 	},
 	"autoload": {
 		"psr-4": {

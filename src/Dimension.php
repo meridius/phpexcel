@@ -24,6 +24,10 @@ class Dimension extends Object {
 		$this->bottomRight = $dimension[1];
 	}
 
+	/**
+	 *
+	 * @return boolean
+	 */
 	public function __toString() {
 		return $this->topLeft . ':' . $this->bottomRight;
 	}

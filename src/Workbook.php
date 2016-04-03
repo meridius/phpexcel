@@ -33,13 +33,14 @@ class Workbook extends Object {
 	/**
 	 * Excel with one sheet
 	 * @param string|null $filePath
-	 * @param boolean $withoutSheets
+	 * @param bool $withoutSheets
+	 * @throws PhpExcelException
 	 */
 	public function __construct($filePath = null, $withoutSheets = true) {
 		try {
 			$this->excel = $filePath
 				? PhpOffice_PHPExcel_IOFactory::load($filePath)
-				: new PhpOffice_PHPExcel;
+				: new PhpOffice_PHPExcel();
 		} catch (PhpOffice_PHPExcel_Reader_Exception $ex) {
 			throw new PhpExcelException('Unable to create excel object.', 0, $e);
 		}
@@ -87,7 +88,7 @@ class Workbook extends Object {
 
 	/**
 	 *
-	 * @param integer $sheetIndex
+	 * @param int $sheetIndex
 	 * @return Worksheet
 	 */
 	public function getSheetByIndex($sheetIndex = 0) {
@@ -109,7 +110,7 @@ class Workbook extends Object {
 	 * @param array $header
 	 * @param array[] $data
 	 * @param string|null $sheetName
-	 * @param boolean $doStandardFormatting
+	 * @param bool $doStandardFormatting
 	 * @return Worksheet
 	 */
 	public function addBasicSheet(
@@ -130,8 +131,8 @@ class Workbook extends Object {
 			$lastRow = count($data) + 1;
 			$lastCol = count($header);
 			$sheet->applyStandardSheetFormat(
-					'A1:' . ExcelHelper::getExcelColumnName($lastCol) . $lastRow
-				);
+				'A1:' . ExcelHelper::getExcelColumnName($lastCol) . $lastRow
+			);
 		}
 		return $sheet;
 	}

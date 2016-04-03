@@ -16,6 +16,10 @@ class Worksheet extends Object {
 	/** @var Formatter */
 	private $formatter;
 
+	/**
+	 *
+	 * @param PhpOffice_PHPExcel_Worksheet $sheet
+	 */
 	public function __construct(PhpOffice_PHPExcel_Worksheet $sheet) {
 		$this->sheet = $sheet;
 		$this->formatter = new Formatter($this->sheet);
@@ -42,7 +46,7 @@ class Worksheet extends Object {
 	 * Set title
 	 *
 	 * @param string $pValue String containing the dimension of this worksheet
-	 * @param string $updateFormulaCellReferences boolean Flag indicating whether cell references in formulae should
+	 * @param string $updateFormulaCellReferences bool Flag indicating whether cell references in formulae should
 	 * be updated to reflect the new sheet name.
 	 * This should be left as the default true, unless you are
 	 * certain that no formula cells on any worksheet contain
@@ -72,11 +76,11 @@ class Worksheet extends Object {
 	 * @param array $source Source array
 	 * @param mixed $nullValue Value in source array that stands for blank cell
 	 * @param string $startCell Insert array starting from this cell address as the top left coordinate
-	 * @param boolean $strictNullComparison Apply strict comparison when testing for null values in the array
+	 * @param bool $strictNullComparison Apply strict comparison when testing for null values in the array
 	 * @throws PhpExcelException
 	 * @return Worksheet
 	 */
-	public function fromArray($source = null, $nullValue = null, $startCell = 'A1', $strictNullComparison = false) {
+	public function fromArray(array $source = null, $nullValue = null, $startCell = 'A1', $strictNullComparison = false) {
 		foreach ($source as &$row) {
 			if (is_array($row)) {
 				foreach ($row as $key => $value) {

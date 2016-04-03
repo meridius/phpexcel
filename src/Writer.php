@@ -11,7 +11,7 @@ class Writer extends Object {
 	 * @return \Meridius\PhpExcel\Workbook
 	 */
 	public static function createNew() {
-		return new Workbook;
+		return new Workbook();
 	}
 
 	/**
