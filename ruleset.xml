@@ -1,59 +1,62 @@
 <?xml version="1.0"?>
 <ruleset name="Meridius Coding Standard">
 
+
     <rule ref="PSR1" />
     
+
     <rule ref="PHPCS" />
     
+
     <rule ref="Zend">
         <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
     </rule>
     
+
     <rule ref="PSR2">
         <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
         <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
     </rule>
     
+
     <rule ref="MySource">
         <exclude name="MySource.Channels.IncludeSystem.NotIncludedCall" />
         <exclude name="MySource.Channels.IncludeSystem.NotIncludedExtends" />
+        <exclude name="MySource.Commenting.FunctionComment.EmptyThrows" />
+        <exclude name="MySource.Commenting.FunctionComment.IncorrectParamVarName" />
+        <exclude name="MySource.Commenting.FunctionComment.InvalidReturn" /> <!-- expects long type names -->
         <exclude name="MySource.Commenting.FunctionComment.Missing" />
         <exclude name="MySource.Commenting.FunctionComment.MissingParamComment" />
         <exclude name="MySource.Commenting.FunctionComment.MissingParamTag" />
         <exclude name="MySource.Commenting.FunctionComment.MissingReturn" />
         <exclude name="MySource.Commenting.FunctionComment.ParamCommentFullStop" />
         <exclude name="MySource.Commenting.FunctionComment.ParamCommentNotCapital" />
+        <exclude name="MySource.Commenting.FunctionComment.ScalarTypeHintMissing" />
         <exclude name="MySource.Commenting.FunctionComment.SpacingAfterParamName" />
         <exclude name="MySource.Commenting.FunctionComment.SpacingAfterParamType" />
         <exclude name="MySource.PHP.ReturnFunctionValue.NotAssigned" />
-        <exclude name="MySource.Commenting.FunctionComment.EmptyThrows" />
-        <exclude name="MySource.Commenting.FunctionComment.IncorrectParamVarName" />
-        <exclude name="MySource.Commenting.FunctionComment.ScalarTypeHintMissing" />
-        <!-- temporary excluded because they are right and I need to fix that -->
-        <exclude name="MySource.Commenting.FunctionComment.InvalidReturn" />
-        <!-- <exclude name="MySource.Commenting.FunctionComment.TypeHintMissing" /> -->
     </rule>
     
+
     <rule ref="PEAR">
         <exclude name="PEAR.Commenting.ClassComment.Missing" />
         <exclude name="PEAR.Commenting.FileComment.Missing" />
+        <exclude name="PEAR.Commenting.FunctionComment.Missing" /> <!-- superseded by Symfony2.Commenting.FunctionComment.Missing -->
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
+        <exclude name="PEAR.Commenting.FunctionComment.MissingReturn" />
         <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamName" />
         <exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamType" />
         <exclude name="PEAR.Functions.FunctionDeclaration.BraceOnSameLine" />
         <exclude name="PEAR.NamingConventions.ValidFunctionName.PrivateNoUnderscore" />
         <exclude name="PEAR.NamingConventions.ValidVariableName.PrivateNoUnderscore" />
         <exclude name="PEAR.WhiteSpace.ScopeIndent.IncorrectExact" />
-        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
-        <exclude name="PEAR.Commenting.FunctionComment.MissingReturn" />
-        <exclude name="PEAR.Commenting.FunctionComment.Missing" /> <!-- superseded by Symfony2.Commenting.FunctionComment.Missing -->
-        <!-- temporary excluded because they are right and I need to fix that -->
-        <!-- <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag" /> -->
-        <!-- <exclude name="PEAR.WhiteSpace.ScopeIndent.Incorrect" /> -->
     </rule>
+
 
     <rule ref="Squiz">
         <exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
         <exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
+        <exclude name="Generic.Commenting.DocComment.MissingShort" />
         <exclude name="Generic.Commenting.DocComment.NonParamGroup" />
         <exclude name="Generic.Commenting.DocComment.SpacingBeforeTags" />
         <exclude name="Generic.Commenting.DocComment.TagValueIndent" />
@@ -63,6 +66,8 @@
         <exclude name="Squiz.Commenting.ClassComment.Missing" />
         <exclude name="Squiz.Commenting.ClosingDeclarationComment.Missing" />
         <exclude name="Squiz.Commenting.FileComment.Missing" />
+        <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName" /> <!-- this expects long type names like "boolean", I want to use short like "bool" -->
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" /> <!-- this expects for inline comments to end in full-stops, exclamation marks, or question marks -->
         <exclude name="Squiz.Commenting.InlineComment.NotCapital" />
         <exclude name="Squiz.Commenting.LongConditionClosingComment.Missing" />
         <exclude name="Squiz.Commenting.PostStatementComment.Found" />
@@ -84,49 +89,31 @@
         <exclude name="Squiz.PHP.ForbiddenFunctions.Found" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.NoLineAfterClose" />
         <exclude name="Squiz.WhiteSpace.FunctionClosingBraceSpace.SpacingBeforeClose" />
-        <exclude name="Generic.Commenting.DocComment.MissingShort" />
-        <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName" /> <!-- this expects long type names like "boolean", I want to use short like "bool" -->
-        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" /> <!-- this expects for inline comments to end in full-stops, exclamation marks, or question marks -->
-        <!-- temporary excluded because they are right and I need to fix that -->
-        <!-- <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" /> -->
-        <!-- <exclude name="Squiz.Commenting.FunctionCommentThrowTag.Missing" /> -->
-        <!-- <exclude name="Squiz.Commenting.InlineComment.SpacingAfter" /> -->
-        <!-- <exclude name="Squiz.PHP.CommentedOutCode.Found" /> -->
     </rule>
 
+
     <rule ref="./vendor/escapestudios/symfony2-coding-standard/Symfony2/ruleset.xml">
-        <exclude name="Symfony2.Commenting.FunctionComment.SpacingAfterParamType" />
         <exclude name="Symfony2.Commenting.ClassComment.Missing" />
-        <exclude name="Symfony2.Formatting.BlankLineBeforeReturn" />
-        <exclude name="Symfony2.NamingConventions.ValidClassName.InvalidInterfaceName" /> <!-- this expects interface name suffixed with "Interface" -->
         <exclude name="Symfony2.Commenting.FunctionComment.SpacingAfterParamName" />
+        <exclude name="Symfony2.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="Symfony2.Formatting.BlankLineBeforeReturn" />
         <exclude name="Symfony2.Functions.ScopeOrder.Invalid" /> <!-- this expects abstract protected function to be defined after public function -->
-        <!--
-        <exclude name="" />
-        -->
+        <exclude name="Symfony2.NamingConventions.ValidClassName.InvalidInterfaceName" /> <!-- this expects interface name suffixed with "Interface" -->
     </rule>
 
 
     <rule ref="./vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+        <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" /> <!-- this expects the myname/projectname/src/MyName/ProjectName/MyClass.php structure, which may be right, but is damn-too-long -->
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword" /> <!-- I want every (extends/implements) to be defined in use section -->
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException" /> <!-- I want even exceptions to be defined in use section -->
         <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces.NonFullyQualified" /> <!-- this just prevents using the "use" section -->
-        <exclude name="SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse" /> <!-- TODO uncomment after bug is fixed https://github.com/slevomat/coding-standard/issues/22 -->
-        <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" /> <!-- this excepts the myname/projectname/src/MyName/ProjectName/MyClass.php structure, which may be right, but is damn-too-long -->
-        <!-- <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName" /> -->
+    </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" type="boolean" value="true" />
+        </properties>
     </rule>
 
-    <!-- <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"> -->
-        <!-- <properties> -->
-            <!-- <property name="searchAnnotations" value="true" /> -->
-        <!-- </properties> -->
-    <!-- </rule> -->
-
-    <!-- <rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"> -->
-        <!-- <properties> -->
-            <!-- <property name="allowUseFromRootNamespace" value="true"/> -->
-        <!-- </properties> -->
-    <!-- </rule> -->
 
     <rule ref="./vendor/consistence/coding-standard/Consistence/ruleset.xml">
         <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman" />
@@ -135,5 +122,6 @@
         <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar" />
         <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
     </rule>
+
 
 </ruleset>
