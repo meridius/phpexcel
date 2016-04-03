@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="meridius-phpexcel" default="project-build">
+<project name="meridius-php-project" default="project-build">
 
 <!-- http://phpqatools.org/ -->
 
@@ -218,12 +218,14 @@
     <exec executable="php">
         <arg file="${checker-file}" />
         <arg value="--short-arrays" />
+        <arg value="-l" />
         <arg value="-d" />
         <arg path="${basedir}/src" />
     </exec>
     <exec executable="php">
         <arg file="${checker-file}" />
         <arg value="--short-arrays" />
+        <arg value="-l" />
         <arg value="-d" />
         <arg path="${basedir}/tests" />
     </exec>
@@ -238,6 +240,7 @@
         <arg file="${checker-file}" />
         <arg value="--short-arrays" />
         <arg value="-f" />
+        <arg value="-l" />
         <arg value="-d" />
         <arg path="${basedir}/src" />
     </exec>
@@ -245,6 +248,7 @@
         <arg file="${checker-file}" />
         <arg value="--short-arrays" />
         <arg value="-f" />
+        <arg value="-l" />
         <arg value="-d" />
         <arg path="${basedir}/tests" />
     </exec>
@@ -402,7 +406,7 @@
         <arg value="--standard=ruleset.xml" />
         <arg value="--extensions=php,phpt" />
         <arg value="--ignore=*/tests/tmp/*" />
-        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage,Generic.Files.LineEndings,SlevomatCodingStandard.Arrays.TrailingArrayComma,SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses" />
+        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage,Generic.Files.LineEndings,SlevomatCodingStandard.Arrays.TrailingArrayComma,SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses,Generic.WhiteSpace.DisallowSpaceIndent" />
         <arg path="${basedir}/src" />
         <arg path="${basedir}/tests" />
     </exec>
@@ -428,7 +432,7 @@
 <target name="phpcpd-human"
     unless="phpcpd-human.done"
     depends="_install-phpcpd"
-    description="Find duplicate code using PHPCPD and log result in XML format.">
+    description="Find duplicate code using PHPCPD and output the result.">
     <exec executable="${phpcpd}" taskname="phpcpd">
         <arg value="--exclude" />
         <arg value="tmp" />
