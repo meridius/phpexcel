@@ -56,7 +56,7 @@ class WriterAddTest extends AbstractIntegrationTestCase {
 		$rows = [
 			[
 				45.5,
-				DateTime::createFromFormat("d.m.Y H:i:s", "04.09.1945 00:00:00"),
+				DateTime::createFromFormat('d.m.Y H:i:s', '04.09.1945 00:00:00'),
 				'jrt rt g',
 				5,
 			], [
@@ -69,7 +69,7 @@ class WriterAddTest extends AbstractIntegrationTestCase {
 				DateTime::createFromFormat('d\.m\.Y H:i:s', '08.09.2005 00:00:00'),
 				'ku',
 				4,
-			]
+			],
 		];
 		$data = [];
 		foreach ($rows as $row) {

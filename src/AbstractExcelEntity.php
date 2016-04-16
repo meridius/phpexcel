@@ -2,13 +2,13 @@
 
 namespace Meridius\PhpExcel;
 
-use \Meridius\PhpExcel\PhpExcelException;
+use Nette\Object;
 
-abstract class AbstractExcelEntity extends \Nette\Object {
+abstract class AbstractExcelEntity extends Object {
 
 	/**
 	 *
-	 * @param array $row
+	 * @param array|\ArrayAccess $row
 	 */
 	public function __construct($row = null) {
 		if (!is_null($row)) {
@@ -23,7 +23,7 @@ abstract class AbstractExcelEntity extends \Nette\Object {
 
 	/**
 	 *
-	 * @param array $row
+	 * @param array|\ArrayAccess $row
 	 * @return AbstractExcelEntity
 	 */
 	public function loadFromExcelRow($row) {

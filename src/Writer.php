@@ -2,14 +2,16 @@
 
 namespace Meridius\PhpExcel;
 
-class Writer extends \Nette\Object {
+use Nette\Object;
+
+class Writer extends Object {
 
 	/**
 	 *
 	 * @return \Meridius\PhpExcel\Workbook
 	 */
 	public static function createNew() {
-		return new Workbook;
+		return new Workbook();
 	}
 
 	/**

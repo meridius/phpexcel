@@ -2,7 +2,9 @@
 
 namespace Meridius\PhpExcel;
 
-class ExcelFieldType extends \Nette\Object {
+use Nette\Object;
+
+class ExcelFieldType extends Object {
 
 	const REQUIRED = 1;
 	const STRING = 2;

@@ -2,6 +2,7 @@
 
 namespace MeridiusTests\PhpExcel;
 
+use const TEMP_DIR;
 use DateTime;
 use Meridius\TesterExtras\AbstractIntegrationTestCase;
 use Meridius\TesterExtras\Bootstrap;
@@ -9,7 +10,6 @@ use MeridiusTests\PhpExcel\ExcelEntity\TestFileExcelEntity;
 use MeridiusTests\PhpExcel\Reader\TestFileWriter;
 use MeridiusTests\PhpExcel\TempExcelStorage;
 use Tester\Assert;
-use const TEMP_DIR;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
@@ -52,7 +52,7 @@ class WriterTest extends AbstractIntegrationTestCase {
 				DateTime::createFromFormat('d.m.Y', '08.09.2005'),
 				'ku',
 				4,
-			]
+			],
 		];
 		$data = [];
 		foreach ($rows as $row) {

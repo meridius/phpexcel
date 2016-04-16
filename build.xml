@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="meridius-php-project" default="project-build">
+
+<!-- http://phpqatools.org/ -->
+
+<!-- Nette/Tester -->
+<property name="tester" value="${basedir}/vendor/bin/tester" />
+
+<!-- Nette/code-checker -->
+<property name="checker-file" value="${basedir}/vendor/code-checker/src/code-checker.php" />
+
+<!-- PHP Parallel Lint -->
+<property name="linter" value="${basedir}/vendor/bin/parallel-lint" />
+
+<!-- PHP Depend -->
+<property name="pdepend" value="${basedir}/vendor/bin/pdepend" />
+
+<!-- PHP Copy/Paste Detector -->
+<property name="phpcpd" value="${basedir}/vendor/bin/phpcpd" />
+
+<!-- PHP Code Sniffer -->
+<property name="phpcs" value="${basedir}/vendor/bin/phpcs" />
+
+<!-- PHP Code Beautifier and Fixer -->
+<property name="phpcbf" value="${basedir}/vendor/bin/phpcbf" />
+
+<!-- PHP Lines of Code -->
+<property name="phploc" value="${basedir}/vendor/bin/phploc" />
+
+
+<!-- RUN CONFIGURATIONS -->
+
+<target name="project-human-friendly"
+    depends="phploc-human,check-human,phpcpd-human,cs-human,lint-human,test-watch"
+    description="Human-friendly output of analysis tools" />
+
+<target name="project-fix"
+    depends="cs-fix,check-fix"
+    description="Fix automatically fixable errors" />
+
+<target name="project-build"
+    depends="prepare"
+    description="Performs static analysis, runs the tests">
+    <parallel threadCount="2">
+        <!-- Adjust the threadCount attribute's value to the number of CPUs -->
+        <sequential>
+            <antcall target="pdepend" />
+        </sequential>
+        <antcall target="lint" />
+        <antcall target="test" />
+        <antcall target="phpcpd" />
+        <antcall target="cs" />
+        <antcall target="phploc" />
+    </parallel>
+</target>
+
+
+<!-- MAINTENANCE JOBS -->
+
+<target name="prepare" 
+    unless="prepare.done" 
+    depends="clean,composer"
+    description="Prepare for build">
+    <mkdir dir="${basedir}/build/api" />
+    <mkdir dir="${basedir}/build/coverage" />
+    <mkdir dir="${basedir}/build/logs" />
+    <mkdir dir="${basedir}/build/pdepend" />
+    <property name="prepare.done" value="true" />
+</target>
+
+<target name="clean" 
+    unless="clean.done" 
+    description="Cleanup build artifacts">
+    <delete dir="${basedir}/build" />
+    <property name="clean.done" value="true" />
+</target>
+
+<target name="composer" 
+    unless="composer.done" 
+    description="Installing project dependencies by composer">
+    <exec executable="composer" failonerror="true">
+        <arg value="update" />
+        <arg value="--no-interaction" />
+        <arg value="--prefer-dist" />
+        <arg value="--working-dir" />
+        <arg value="${basedir}" />
+    </exec>
+    <property name="composer.done" value="true" />
+</target>
+
+
+<target name="_check-phpcs-installed">
+    <condition property="_is-phpcs-installed">
+        <available file="${phpcs}" type="file" />
+    </condition>
+</target>
+<target name="_install-phpcs"
+    depends="_check-phpcs-installed"
+    unless="_is-phpcs-installed">
+    <antcall target="${composer}" />
+</target>
+
+
+<target name="_check-phpcpd-installed">
+    <condition property="_is-phpcpd-installed">
+        <available file="${phpcpd}" type="file" />
+    </condition>
+</target>
+<target name="_install-phpcpd"
+    depends="_check-phpcpd-installed"
+    unless="_is-phpcpd-installed">
+    <antcall target="${composer}" />
+</target>
+
+
+<target name="_check-phploc-installed">
+    <condition property="_is-phploc-installed">
+        <available file="${phploc}" type="file" />
+    </condition>
+</target>
+<target name="_install-phploc"
+    depends="_check-phploc-installed"
+    unless="_is-phploc-installed">
+    <antcall target="${composer}" />
+</target>
+
+
+<target name="_check-tester-installed">
+    <condition property="_is-tester-installed">
+        <available file="${tester}" type="file" />
+    </condition>
+</target>
+<target name="_install-tester"
+    depends="_check-tester-installed"
+    unless="_is-tester-installed">
+    <antcall target="${composer}" />
+</target>
+
+
+<target name="_check-linter-installed">
+    <condition property="_is-linter-installed">
+        <available file="${linter}" type="file" />
+    </condition>
+</target>
+<target name="_install-linter"
+    depends="_check-linter-installed"
+    unless="_is-linter-installed">
+    <antcall target="${composer}" />
+</target>
+
+
+<target name="_check-pdepend-installed">
+    <condition property="_is-pdepend-installed">
+        <available file="${pdepend}" type="file" />
+    </condition>
+</target>
+<target name="_install-pdepend"
+    depends="_check-pdepend-installed"
+    unless="_is-pdepend-installed">
+    <antcall target="${composer}" />
+</target>
+
+
+<target name="_check-code-checker-installed">
+    <condition property="_is-code-checker-installed">
+        <available file="${checker-file}" type="file" />
+    </condition>
+</target>
+<target name="_install-code-checker"
+    depends="_check-code-checker-installed"
+    unless="_is-code-checker-installed">
+    <exec executable="composer">
+        <arg value="create-project" />
+        <arg value="--prefer-source" />
+        <arg value="--no-interaction" />
+        <arg value="nette/code-checker" />
+        <arg value="${basedir}/vendor/code-checker" />
+    </exec>
+</target>
+
+
+<!-- JOBS -->
+
+<target name="lint" 
+    unless="lint.done" 
+    depends="_install-linter"
+    description="Run php-parallel-lint">
+    <exec executable="${linter}">
+        <arg value="--json" />
+        <arg value="-e" />
+        <arg value="php,phpt" />
+        <arg value="--exclude" />
+        <arg path="${basedir}/vendor" />
+        <arg path="${basedir}" />
+    </exec>
+    <property name="lint.done" value="true" />
+</target>
+
+<target name="lint-human" 
+    unless="lint-human.done" 
+    depends="_install-linter"
+    description="Run php-parallel-lint">
+    <exec executable="${linter}">
+        <arg value="-e" />
+        <arg value="php,phpt" />
+        <arg value="--exclude" />
+        <arg path="${basedir}/vendor" />
+        <arg path="${basedir}" />
+    </exec>
+    <property name="lint-human.done" value="true" />
+</target>
+
+
+<target name="check-human" 
+    unless="check-human.done" 
+    depends="_install-code-checker"
+    description="Run nette/code-checker">
+    <exec executable="php">
+        <arg file="${checker-file}" />
+        <arg value="--short-arrays" />
+        <arg value="-l" />
+        <arg value="-d" />
+        <arg path="${basedir}/src" />
+    </exec>
+    <exec executable="php">
+        <arg file="${checker-file}" />
+        <arg value="--short-arrays" />
+        <arg value="-l" />
+        <arg value="-d" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="check-human.done" value="true" />
+</target>
+
+<target name="check-fix" 
+    unless="check-fix.done" 
+    depends="_install-code-checker"
+    description="Run nette/code-checker">
+    <exec executable="php">
+        <arg file="${checker-file}" />
+        <arg value="--short-arrays" />
+        <arg value="-f" />
+        <arg value="-l" />
+        <arg value="-d" />
+        <arg path="${basedir}/src" />
+    </exec>
+    <exec executable="php">
+        <arg file="${checker-file}" />
+        <arg value="--short-arrays" />
+        <arg value="-f" />
+        <arg value="-l" />
+        <arg value="-d" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="check-fix.done" value="true" />
+</target>
+
+
+<target name="test" 
+    unless="test.done" 
+    depends="_install-tester"
+    description="Run nette/tester">
+    <exec executable="${tester}">
+        <arg value="-s" />
+        <arg value="-c" />
+        <arg path="${basedir}/tests/php-unix.ini" />
+        <arg value="-o" />
+        <arg value="none" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <exec executable="${tester}">
+        <arg value="-s" />
+        <arg value="-c" />
+        <arg path="${basedir}/tests/php-unix.ini" />
+        <arg value="-o" />
+        <arg value="none" />
+        <arg value="--coverage" />
+        <arg value="build/coverage/clover.html" />
+        <arg value="--coverage-src" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <exec executable="${tester}">
+        <redirector output="${basedir}/build/logs/junit.xml" alwayslog="true" />
+        <arg value="-s" />
+        <arg value="-c" />
+        <arg path="${basedir}/tests/php-unix.ini" />
+        <arg value="-o" />
+        <arg value="junit" />
+        <arg value="--coverage" />
+        <arg value="build/logs/clover.xml" />
+        <arg value="--coverage-src" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="test.done" value="true" />
+</target>
+
+<target name="test-watch" 
+    unless="test-watch.done" 
+    depends="_install-tester"
+    description="Run nette/tester">
+    <exec executable="${tester}">
+        <arg value="-s" />
+        <arg value="--colors" />
+        <arg value="1" />
+        <arg value="-c" />
+        <arg path="${basedir}/tests/php-unix.ini" />
+        <arg value="-w" />
+        <arg path="${basedir}/tests" />
+        <arg value="-w" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="test-watch.done" value="true" />
+</target>
+
+
+<target name="pdepend"
+    unless="pdepend.done"
+    depends="_install-pdepend"
+    description="Calculate software metrics using PHP_Depend and log result in XML format.">
+    <exec executable="${pdepend}" taskname="pdepend">
+        <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+        <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+        <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+        <arg value="--ignore=tmp/" />
+        <arg path="${basedir}/src,${basedir}/tests" />
+    </exec>
+    <property name="pdepend.done" value="true" />
+</target>
+
+
+<target name="phploc"
+    unless="phploc.done"
+    depends="_install-phploc"
+    description="Measure project size using PHPLOC and log result in CSV and XML format.">
+    <exec executable="${phploc}" taskname="phploc">
+        <arg value="--count-tests" />
+        <arg value="--log-csv" />
+        <arg path="${basedir}/build/logs/phploc.csv" />
+        <arg value="--log-xml" />
+        <arg path="${basedir}/build/logs/phploc.xml" />
+        <arg value="--exclude" />
+        <arg value="tmp" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="phploc.done" value="true" />
+</target>
+
+<target name="phploc-human"
+    unless="phploc-human.done"
+    depends="_install-phploc"
+    description="Measure project size using PHPLOC and log result in CSV and XML format.">
+    <exec executable="${phploc}" taskname="phploc">
+        <arg value="--exclude" />
+        <arg value="tmp" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="phploc-human.done" value="true" />
+</target>
+
+
+<target name="cs"
+    unless="cs.done"
+    depends="_install-phpcs"
+    description="Find coding standard violations using PHP_CodeSniffer and log result in XML format.">
+    <exec executable="${phpcs}" output="/dev/null" taskname="phpcs">
+        <arg value="--report=checkstyle" />
+        <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+        <arg value="--standard=ruleset.xml" />
+        <arg value="--extensions=php,phpt" />
+        <arg value="--ignore=*/tests/tmp/*" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="cs.done" value="true" />
+</target>
+
+<target name="cs-human"
+    unless="cs-human.done"
+    depends="_install-phpcs"
+    description="Find coding standard violations using PHP_CodeSniffer and report to standard output in human-friendly format.">
+    <exec executable="${phpcs}" taskname="phpcs">
+        <arg value="--report=full" />
+        <arg value="--report-width=160" />
+        <arg value="--colors" />
+        <arg value="-s" />
+        <arg value="--standard=ruleset.xml" />
+        <arg value="--extensions=php,phpt" />
+        <arg value="--ignore=*/tests/tmp/*" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="cs-human.done" value="true" />
+</target>
+
+<target name="cs-fix"
+    unless="cs-fix.done"
+    depends="_install-phpcs"
+    description="Fix coding standard violations using PHP Code Beautifier and Fixer.">
+    <exec executable="${phpcbf}" taskname="phpcs">
+        <arg value="--colors" />
+        <arg value="--standard=ruleset.xml" />
+        <arg value="--extensions=php,phpt" />
+        <arg value="--ignore=*/tests/tmp/*" />
+        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage,Generic.Files.LineEndings,SlevomatCodingStandard.Arrays.TrailingArrayComma,SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses,Generic.WhiteSpace.DisallowSpaceIndent,Generic.PHP.LowerCaseConstant" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="cs-fix.done" value="true" />
+</target>
+
+
+<target name="phpcpd"
+    unless="phpcpd.done"
+    depends="_install-phpcpd"
+    description="Find duplicate code using PHPCPD and log result in XML format.">
+    <exec executable="${phpcpd}" taskname="phpcpd">
+        <arg value="--log-pmd" />
+        <arg path="${basedir}/build/logs/pmd-cpd.xml" />
+        <arg value="--exclude" />
+        <arg value="tmp" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="phpcpd.done" value="true" />
+</target>
+
+<target name="phpcpd-human"
+    unless="phpcpd-human.done"
+    depends="_install-phpcpd"
+    description="Find duplicate code using PHPCPD and output the result.">
+    <exec executable="${phpcpd}" taskname="phpcpd">
+        <arg value="--exclude" />
+        <arg value="tmp" />
+        <arg path="${basedir}/src" />
+        <arg path="${basedir}/tests" />
+    </exec>
+    <property name="phpcpd-human.done" value="true" />
+</target>
+
+</project>

@@ -2,12 +2,9 @@
 
 namespace Meridius\PhpExcel;
 
-use \Meridius\PhpExcel\Reader;
-use \Meridius\PhpExcel\AbstractExcelEntity;
-use \Meridius\PhpExcel\ITempUploadStorage;
-use \Meridius\PhpExcel\PhpExcelException;
+use Nette\Object;
 
-abstract class AbstractPhpExcelReader extends \Nette\Object {
+abstract class AbstractPhpExcelReader extends Object {
 
 	/** @var ITempUploadStorage */
 	private $tempUploadStorage;
@@ -15,19 +12,15 @@ abstract class AbstractPhpExcelReader extends \Nette\Object {
 	/** @var AbstractExcelEntity */
 	private $blankEntity;
 
+	/**
+	 *
+	 * @param ITempUploadStorage $tempUploadStorage
+	 * @param AbstractExcelEntity $blankEntity
+	 */
 	public function __construct(ITempUploadStorage $tempUploadStorage, AbstractExcelEntity $blankEntity) {
 		$this->tempUploadStorage = $tempUploadStorage;
 		$this->blankEntity = $blankEntity;
 	}
-
-	/**
-	 * This method should create new instance of \Meridius\PhpExcel\Reader,<br/>
-	 * set sheet name, columns, etc. and pass the reader to toEntities() method.
-	 * It is now commented-out because you don't have to implement it in case separate methods for each sheet.
-	 * @param string $file file path
-	 * @return AbstractExcelEntity[]
-	 */
-// public function readFile($file);
 
 	/**
 	 *

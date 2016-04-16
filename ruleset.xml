@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ruleset name="Meridius Coding Standard">
+
+    <rule ref="./vendor/meridius/coding-standard/ruleset.xml" />
+
+</ruleset>
