@@ -80,7 +80,12 @@ class Worksheet extends Object {
 	 * @throws PhpExcelException
 	 * @return Worksheet
 	 */
-	public function fromArray(array $source = null, $nullValue = null, $startCell = 'A1', $strictNullComparison = false) {
+	public function fromArray(
+		array $source = null,
+		$nullValue = null,
+		$startCell = 'A1',
+		$strictNullComparison = false
+	) {
 		foreach ($source as &$row) {
 			if (is_array($row)) {
 				foreach ($row as $key => $value) {

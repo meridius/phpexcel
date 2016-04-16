@@ -406,7 +406,7 @@
         <arg value="--standard=ruleset.xml" />
         <arg value="--extensions=php,phpt" />
         <arg value="--ignore=*/tests/tmp/*" />
-        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage,Generic.Files.LineEndings,SlevomatCodingStandard.Arrays.TrailingArrayComma,SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses,Generic.WhiteSpace.DisallowSpaceIndent" />
+        <arg value="--sniffs=Squiz.Commenting.FunctionComment,Squiz.Strings.DoubleQuoteUsage,Generic.Files.LineEndings,SlevomatCodingStandard.Arrays.TrailingArrayComma,SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses,Generic.WhiteSpace.DisallowSpaceIndent,Generic.PHP.LowerCaseConstant" />
         <arg path="${basedir}/src" />
         <arg path="${basedir}/tests" />
     </exec>

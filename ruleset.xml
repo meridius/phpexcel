@@ -25,6 +25,7 @@
         <exclude name="MySource.Commenting.FunctionComment.EmptyThrows" />
         <exclude name="MySource.Commenting.FunctionComment.IncorrectParamVarName" />
         <exclude name="MySource.Commenting.FunctionComment.InvalidReturn" /> <!-- expects long type names -->
+        <exclude name="MySource.Commenting.FunctionComment.InvalidReturnNotVoid" /> <!-- cannot handle lambda functions -->
         <exclude name="MySource.Commenting.FunctionComment.Missing" />
         <exclude name="MySource.Commenting.FunctionComment.MissingParamComment" />
         <exclude name="MySource.Commenting.FunctionComment.MissingParamTag" />
@@ -40,6 +41,11 @@
 
     <rule ref="PEAR">
         <exclude name="PEAR.Commenting.ClassComment.Missing" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingPackageTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingAuthorTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag" />
+        <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag" />
         <exclude name="PEAR.Commenting.FileComment.Missing" />
         <exclude name="PEAR.Commenting.FunctionComment.Missing" /> <!-- superseded by Symfony2.Commenting.FunctionComment.Missing -->
         <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment" />
@@ -86,6 +92,7 @@
         <exclude name="Squiz.Operators.ComparisonOperatorUsage.NotAllowed" />
         <exclude name="Squiz.PHP.DisallowComparisonAssignment.AssignedComparison" />
         <exclude name="Squiz.PHP.DisallowInlineIf.Found" />
+        <exclude name="Squiz.PHP.DisallowBooleanStatement.Found" />
         <exclude name="Squiz.PHP.ForbiddenFunctions.Found" />
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.NoLineAfterClose" />
         <exclude name="Squiz.WhiteSpace.FunctionClosingBraceSpace.SpacingBeforeClose" />
@@ -99,6 +106,7 @@
         <exclude name="Symfony2.Formatting.BlankLineBeforeReturn" />
         <exclude name="Symfony2.Functions.ScopeOrder.Invalid" /> <!-- this expects abstract protected function to be defined after public function -->
         <exclude name="Symfony2.NamingConventions.ValidClassName.InvalidInterfaceName" /> <!-- this expects interface name suffixed with "Interface" -->
+        <exclude name="Symfony2.WhiteSpace.DiscourageFitzinator" /> <!-- this throws only WARNING without possibility to fix automatically like Squiz.WhiteSpace.SuperfluousWhitespace.EndLine does -->
     </rule>
 
 
