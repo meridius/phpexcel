@@ -2,6 +2,7 @@
 *Wrapper for [PHPOffice/PHPExcel](https://github.com/PHPOffice/PHPExcel)*
 
 [![Build Status](https://travis-ci.org/meridius/phpexcel.svg?branch=master)](https://travis-ci.org/meridius/phpexcel)
+[![Coverage Status](https://coveralls.io/repos/github/meridius/phpexcel/badge.svg?branch=master)](https://coveralls.io/github/meridius/phpexcel?branch=master)
 
 ## How to
 
